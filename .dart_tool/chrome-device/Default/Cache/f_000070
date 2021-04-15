@@ -1,0 +1,404 @@
+define(['dart_sdk', 'packages/flutter/src/services/text_input.dart', 'packages/flutter/src/services/text_editing.dart', 'packages/flutter/src/services/text_formatter.dart'], (function load__packages__mask_text_input_formatter__mask_text_input_formatter_dart(dart_sdk, packages__flutter__src__services__text_input$46dart, packages__flutter__src__services__text_editing$46dart, packages__flutter__src__services__text_formatter$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _interceptors = dart_sdk._interceptors;
+  const _js_helper = dart_sdk._js_helper;
+  const ui = dart_sdk.ui;
+  const math = dart_sdk.math;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const text_input = packages__flutter__src__services__text_input$46dart.src__services__text_input;
+  const text_editing = packages__flutter__src__services__text_editing$46dart.src__services__text_editing;
+  const text_formatter = packages__flutter__src__services__text_formatter$46dart.src__services__text_formatter;
+  var mask_text_input_formatter = Object.create(dart.library);
+  var $isEmpty = dartx.isEmpty;
+  var $abs = dartx.abs;
+  var $_get = dartx._get;
+  var $contains = dartx.contains;
+  var $substring = dartx.substring;
+  var $keys = dartx.keys;
+  var $toList = dartx.toList;
+  var $fold = dartx.fold;
+  var $removeRange = dartx.removeRange;
+  var $insert = dartx.insert;
+  var $removeAt = dartx.removeAt;
+  var $clear = dartx.clear;
+  var $join = dartx.join;
+  var $add = dartx.add;
+  var $toString = dartx.toString;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    JSArrayOfStringL: () => (T.JSArrayOfStringL = dart.constFn(_interceptors.JSArray$(T.StringL())))(),
+    RegExpL: () => (T.RegExpL = dart.constFn(dart.legacy(core.RegExp)))(),
+    IdentityMapOfStringL$RegExpL: () => (T.IdentityMapOfStringL$RegExpL = dart.constFn(_js_helper.IdentityMap$(T.StringL(), T.RegExpL())))(),
+    intL: () => (T.intL = dart.constFn(dart.legacy(core.int)))(),
+    numL: () => (T.numL = dart.constFn(dart.legacy(core.num)))(),
+    intLAndStringLTointL: () => (T.intLAndStringLTointL = dart.constFn(dart.fnType(T.intL(), [T.intL(), T.StringL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: ui.TextRange.prototype,
+        [TextRange_end]: -1,
+        [TextRange_start]: -1
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: ui.TextAffinity.prototype,
+        [_name]: "TextAffinity.downstream",
+        index: 1
+      });
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: text_editing.TextSelection.prototype,
+        [TextRange_end]: -1,
+        [TextRange_start]: -1,
+        [TextSelection_isDirectional]: false,
+        [TextSelection_affinity]: C[3] || CT.C3,
+        [TextSelection_extentOffset]: -1,
+        [TextSelection_baseOffset]: -1
+      });
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: text_input.TextEditingValue.prototype,
+        [TextEditingValue_composing]: C[1] || CT.C1,
+        [TextEditingValue_selection]: C[2] || CT.C2,
+        [TextEditingValue_text]: ""
+      });
+    }
+  }, false);
+  var C = Array(4).fill(void 0);
+  var I = ["package:mask_text_input_formatter/mask_text_input_formatter.dart"];
+  var _mask = dart.privateName(mask_text_input_formatter, "_mask");
+  var _maskChars = dart.privateName(mask_text_input_formatter, "_maskChars");
+  var _maskFilter = dart.privateName(mask_text_input_formatter, "_maskFilter");
+  var _maskLength = dart.privateName(mask_text_input_formatter, "_maskLength");
+  var _resultTextArray = dart.privateName(mask_text_input_formatter, "_resultTextArray");
+  var _resultTextMasked = dart.privateName(mask_text_input_formatter, "_resultTextMasked");
+  var _lastResValue = dart.privateName(mask_text_input_formatter, "_lastResValue");
+  var _lastNewValue = dart.privateName(mask_text_input_formatter, "_lastNewValue");
+  var TextRange_end = dart.privateName(ui, "TextRange.end");
+  var TextRange_start = dart.privateName(ui, "TextRange.start");
+  var TextEditingValue_composing = dart.privateName(text_input, "TextEditingValue.composing");
+  var TextSelection_isDirectional = dart.privateName(text_editing, "TextSelection.isDirectional");
+  var _name = dart.privateName(ui, "_name");
+  var TextSelection_affinity = dart.privateName(text_editing, "TextSelection.affinity");
+  var TextSelection_extentOffset = dart.privateName(text_editing, "TextSelection.extentOffset");
+  var TextSelection_baseOffset = dart.privateName(text_editing, "TextSelection.baseOffset");
+  var TextEditingValue_selection = dart.privateName(text_input, "TextEditingValue.selection");
+  var TextEditingValue_text = dart.privateName(text_input, "TextEditingValue.text");
+  var _updateFilter = dart.privateName(mask_text_input_formatter, "_updateFilter");
+  var _calcMaskLength = dart.privateName(mask_text_input_formatter, "_calcMaskLength");
+  var _format = dart.privateName(mask_text_input_formatter, "_format");
+  mask_text_input_formatter.MaskTextInputFormatter = class MaskTextInputFormatter extends core.Object {
+    updateMask(opts) {
+      let mask = opts && 'mask' in opts ? opts.mask : null;
+      let filter = opts && 'filter' in opts ? opts.filter : null;
+      this[_mask] = mask;
+      if (filter != null) {
+        this[_updateFilter](filter);
+      }
+      this[_calcMaskLength]();
+      let unmaskedText = this.getUnmaskedText();
+      this.clear();
+      return this.formatEditUpdate(C[0] || CT.C0, new text_input.TextEditingValue.new({text: unmaskedText, selection: new text_editing.TextSelection.collapsed({offset: unmaskedText.length})}));
+    }
+    getMask() {
+      return this[_mask];
+    }
+    getMaskedText() {
+      return this[_resultTextMasked];
+    }
+    getUnmaskedText() {
+      return dart.toString(this[_resultTextArray]);
+    }
+    isFill() {
+      return this[_resultTextArray].length == this[_maskLength];
+    }
+    clear() {
+      this[_resultTextMasked] = "";
+      this[_resultTextArray].clear();
+      this[_lastResValue] = null;
+      this[_lastNewValue] = null;
+    }
+    maskText(text) {
+      return new mask_text_input_formatter.MaskTextInputFormatter.new({mask: this[_mask], filter: this[_maskFilter], initialText: text}).getMaskedText();
+    }
+    unmaskText(text) {
+      return new mask_text_input_formatter.MaskTextInputFormatter.new({mask: this[_mask], filter: this[_maskFilter], initialText: text}).getUnmaskedText();
+    }
+    formatEditUpdate(oldValue, newValue) {
+      if (dart.equals(this[_lastResValue], oldValue) && dart.equals(newValue, this[_lastNewValue])) {
+        return oldValue;
+      }
+      if (oldValue.text[$isEmpty]) {
+        this[_resultTextArray].clear();
+      }
+      this[_lastNewValue] = newValue;
+      return this[_lastResValue] = this[_format](oldValue, newValue);
+    }
+    [_format](oldValue, newValue) {
+      let t0;
+      let mask = this[_mask];
+      if (mask == null || mask[$isEmpty] === true) {
+        this[_resultTextMasked] = newValue.text;
+        this[_resultTextArray].set(newValue.text);
+        return newValue;
+      }
+      let beforeText = oldValue.text;
+      let afterText = newValue.text;
+      let beforeSelection = oldValue.selection;
+      let afterSelection = newValue.selection;
+      let beforeSelectionStart = dart.test(afterSelection.isValid) ? dart.test(beforeSelection.isValid) ? beforeSelection.start : 0 : 0;
+      let beforeSelectionLength = dart.test(afterSelection.isValid) ? dart.test(beforeSelection.isValid) ? dart.notNull(beforeSelection.end) - dart.notNull(beforeSelection.start) : 0 : oldValue.text.length;
+      let lengthDifference = afterText.length - (beforeText.length - beforeSelectionLength);
+      let lengthRemoved = lengthDifference < 0 ? lengthDifference[$abs]() : 0;
+      let lengthAdded = lengthDifference > 0 ? lengthDifference : 0;
+      let afterChangeStart = math.max(T.intL(), 0, dart.notNull(beforeSelectionStart) - lengthRemoved);
+      let afterChangeEnd = math.max(T.intL(), 0, afterChangeStart + lengthAdded);
+      let beforeReplaceStart = math.max(T.intL(), 0, dart.notNull(beforeSelectionStart) - lengthRemoved);
+      let beforeReplaceLength = beforeSelectionLength + lengthRemoved;
+      let beforeResultTextLength = this[_resultTextArray].length;
+      let currentResultTextLength = this[_resultTextArray].length;
+      let currentResultSelectionStart = 0;
+      let currentResultSelectionLength = 0;
+      for (let i = 0; i < math.min(T.numL(), beforeReplaceStart + beforeReplaceLength, mask.length); i = i + 1) {
+        if (dart.test(this[_maskChars][$contains](mask[$_get](i))) && dart.notNull(currentResultTextLength) > 0) {
+          currentResultTextLength = dart.notNull(currentResultTextLength) - 1;
+          if (i < beforeReplaceStart) {
+            currentResultSelectionStart = currentResultSelectionStart + 1;
+          }
+          if (i >= beforeReplaceStart) {
+            currentResultSelectionLength = currentResultSelectionLength + 1;
+          }
+        }
+      }
+      let replacementText = afterText[$substring](afterChangeStart, afterChangeEnd);
+      let targetCursorPosition = currentResultSelectionStart;
+      if (replacementText[$isEmpty]) {
+        this[_resultTextArray].removeRange(currentResultSelectionStart, currentResultSelectionStart + currentResultSelectionLength);
+      } else {
+        if (currentResultSelectionLength > 0) {
+          this[_resultTextArray].removeRange(currentResultSelectionStart, currentResultSelectionStart + currentResultSelectionLength);
+        }
+        this[_resultTextArray].insert(currentResultSelectionStart, replacementText);
+        targetCursorPosition = targetCursorPosition + replacementText.length;
+      }
+      if (beforeResultTextLength === 0 && dart.notNull(this[_resultTextArray].length) > 1) {
+        for (let i = 0; i < mask.length; i = i + 1) {
+          if (dart.test(this[_maskChars][$contains](mask[$_get](i))) || dart.test(this[_resultTextArray].isEmpty)) {
+            break;
+          } else if (mask[$_get](i) === this[_resultTextArray]._get(0)) {
+            this[_resultTextArray].removeAt(0);
+          }
+        }
+      }
+      let curTextPos = 0;
+      let maskPos = 0;
+      this[_resultTextMasked] = "";
+      let cursorPos = -1;
+      let nonMaskedCount = 0;
+      while (maskPos < mask.length) {
+        let curMaskChar = mask[$_get](maskPos);
+        let isMaskChar = this[_maskChars][$contains](curMaskChar);
+        let curTextInRange = curTextPos < dart.notNull(this[_resultTextArray].length);
+        let curTextChar = null;
+        if (dart.test(isMaskChar) && curTextInRange) {
+          while (curTextChar == null && curTextInRange) {
+            let potentialTextChar = this[_resultTextArray]._get(curTextPos);
+            if (this[_maskFilter] != null && (t0 = this[_maskFilter][$_get](curMaskChar), t0 == null ? null : t0.hasMatch(potentialTextChar)) === true) {
+              curTextChar = potentialTextChar;
+            } else {
+              this[_resultTextArray].removeAt(curTextPos);
+              curTextInRange = curTextPos < dart.notNull(this[_resultTextArray].length);
+              if (curTextPos <= targetCursorPosition) {
+                targetCursorPosition = targetCursorPosition - 1;
+              }
+            }
+          }
+        }
+        if (dart.test(isMaskChar) && curTextInRange && curTextChar != null) {
+          this[_resultTextMasked] = dart.notNull(this[_resultTextMasked]) + dart.notNull(curTextChar);
+          if (curTextPos === targetCursorPosition && cursorPos === -1) {
+            cursorPos = maskPos - nonMaskedCount;
+          }
+          nonMaskedCount = 0;
+          curTextPos = curTextPos + 1;
+        } else {
+          if (curTextPos === targetCursorPosition && cursorPos === -1 && !curTextInRange) {
+            cursorPos = maskPos;
+          }
+          if (!curTextInRange) {
+            break;
+          } else {
+            this[_resultTextMasked] = dart.notNull(this[_resultTextMasked]) + mask[$_get](maskPos);
+          }
+          nonMaskedCount = nonMaskedCount + 1;
+        }
+        maskPos = maskPos + 1;
+      }
+      if (nonMaskedCount > 0) {
+        this[_resultTextMasked] = this[_resultTextMasked][$substring](0, this[_resultTextMasked].length - nonMaskedCount);
+        cursorPos = cursorPos - nonMaskedCount;
+      }
+      if (dart.notNull(this[_resultTextArray].length) > dart.notNull(this[_maskLength])) {
+        this[_resultTextArray].removeRange(this[_maskLength], this[_resultTextArray].length);
+      }
+      let finalCursorPosition = cursorPos < 0 ? this[_resultTextMasked].length : cursorPos;
+      return new text_input.TextEditingValue.new({text: this[_resultTextMasked], selection: new text_editing.TextSelection.new({baseOffset: finalCursorPosition, extentOffset: finalCursorPosition, affinity: newValue.selection.affinity, isDirectional: newValue.selection.isDirectional})});
+    }
+    [_calcMaskLength]() {
+      this[_maskLength] = 0;
+      let mask = this[_mask];
+      if (mask != null) {
+        for (let i = 0; i < mask.length; i = i + 1) {
+          if (dart.test(this[_maskChars][$contains](mask[$_get](i)))) {
+            this[_maskLength] = dart.notNull(this[_maskLength]) + 1;
+          }
+        }
+      }
+    }
+    [_updateFilter](filter) {
+      let t0, t0$, t0$0;
+      this[_maskFilter] = filter;
+      this[_maskChars] = (t0$0 = (t0$ = (t0 = this[_maskFilter], t0 == null ? null : t0[$keys]), t0$ == null ? null : t0$[$toList]({growable: false})), t0$0 == null ? T.JSArrayOfStringL().of([]) : t0$0);
+    }
+  };
+  (mask_text_input_formatter.MaskTextInputFormatter.new = function(opts) {
+    let t0;
+    let mask = opts && 'mask' in opts ? opts.mask : null;
+    let filter = opts && 'filter' in opts ? opts.filter : null;
+    let initialText = opts && 'initialText' in opts ? opts.initialText : null;
+    this[_mask] = null;
+    this[_maskChars] = T.JSArrayOfStringL().of([]);
+    this[_maskFilter] = null;
+    this[_maskLength] = 0;
+    this[_resultTextArray] = new mask_text_input_formatter._TextMatcher.new();
+    this[_resultTextMasked] = "";
+    this[_lastResValue] = null;
+    this[_lastNewValue] = null;
+    this.updateMask({mask: mask, filter: (t0 = filter, t0 == null ? new (T.IdentityMapOfStringL$RegExpL()).from(["#", core.RegExp.new("[0-9]"), "A", core.RegExp.new("[^0-9]")]) : t0)});
+    if (initialText != null) {
+      this.formatEditUpdate(C[0] || CT.C0, new text_input.TextEditingValue.new({text: initialText}));
+    }
+  }).prototype = mask_text_input_formatter.MaskTextInputFormatter.prototype;
+  dart.addTypeTests(mask_text_input_formatter.MaskTextInputFormatter);
+  dart.addTypeCaches(mask_text_input_formatter.MaskTextInputFormatter);
+  mask_text_input_formatter.MaskTextInputFormatter[dart.implements] = () => [text_formatter.TextInputFormatter];
+  dart.setMethodSignature(mask_text_input_formatter.MaskTextInputFormatter, () => ({
+    __proto__: dart.getMethods(mask_text_input_formatter.MaskTextInputFormatter.__proto__),
+    updateMask: dart.fnType(dart.legacy(text_input.TextEditingValue), [], {filter: dart.legacy(core.Map$(dart.legacy(core.String), dart.legacy(core.RegExp))), mask: dart.legacy(core.String)}, {}),
+    getMask: dart.fnType(dart.legacy(core.String), []),
+    getMaskedText: dart.fnType(dart.legacy(core.String), []),
+    getUnmaskedText: dart.fnType(dart.legacy(core.String), []),
+    isFill: dart.fnType(dart.legacy(core.bool), []),
+    clear: dart.fnType(dart.void, []),
+    maskText: dart.fnType(dart.legacy(core.String), [dart.legacy(core.String)]),
+    unmaskText: dart.fnType(dart.legacy(core.String), [dart.legacy(core.String)]),
+    formatEditUpdate: dart.fnType(dart.legacy(text_input.TextEditingValue), [dart.legacy(text_input.TextEditingValue), dart.legacy(text_input.TextEditingValue)]),
+    [_format]: dart.fnType(dart.legacy(text_input.TextEditingValue), [dart.legacy(text_input.TextEditingValue), dart.legacy(text_input.TextEditingValue)]),
+    [_calcMaskLength]: dart.fnType(dart.void, []),
+    [_updateFilter]: dart.fnType(dart.void, [dart.legacy(core.Map$(dart.legacy(core.String), dart.legacy(core.RegExp)))])
+  }));
+  dart.setLibraryUri(mask_text_input_formatter.MaskTextInputFormatter, I[0]);
+  dart.setFieldSignature(mask_text_input_formatter.MaskTextInputFormatter, () => ({
+    __proto__: dart.getFields(mask_text_input_formatter.MaskTextInputFormatter.__proto__),
+    [_mask]: dart.fieldType(dart.legacy(core.String)),
+    [_maskChars]: dart.fieldType(dart.legacy(core.List$(dart.legacy(core.String)))),
+    [_maskFilter]: dart.fieldType(dart.legacy(core.Map$(dart.legacy(core.String), dart.legacy(core.RegExp)))),
+    [_maskLength]: dart.fieldType(dart.legacy(core.int)),
+    [_resultTextArray]: dart.finalFieldType(dart.legacy(mask_text_input_formatter._TextMatcher)),
+    [_resultTextMasked]: dart.fieldType(dart.legacy(core.String)),
+    [_lastResValue]: dart.fieldType(dart.legacy(text_input.TextEditingValue)),
+    [_lastNewValue]: dart.fieldType(dart.legacy(text_input.TextEditingValue))
+  }));
+  var _symbolArray = dart.privateName(mask_text_input_formatter, "_symbolArray");
+  mask_text_input_formatter._TextMatcher = class _TextMatcher extends core.Object {
+    get length() {
+      return this[_symbolArray][$fold](T.intL(), 0, dart.fn((prev, match) => dart.notNull(prev) + match.length, T.intLAndStringLTointL()));
+    }
+    removeRange(start, end) {
+      return this[_symbolArray][$removeRange](start, end);
+    }
+    insert(start, substring) {
+      for (let i = 0; i < substring.length; i = i + 1) {
+        this[_symbolArray][$insert](dart.notNull(start) + i, substring[$_get](i));
+      }
+    }
+    get isEmpty() {
+      return this[_symbolArray][$isEmpty];
+    }
+    removeAt(index) {
+      return this[_symbolArray][$removeAt](index);
+    }
+    _get(index) {
+      return this[_symbolArray][$_get](index);
+    }
+    clear() {
+      return this[_symbolArray][$clear]();
+    }
+    toString() {
+      return this[_symbolArray][$join]();
+    }
+    set(text) {
+      this[_symbolArray][$clear]();
+      for (let i = 0; i < text.length; i = i + 1) {
+        this[_symbolArray][$add](text[$_get](i));
+      }
+    }
+  };
+  (mask_text_input_formatter._TextMatcher.new = function() {
+    this[_symbolArray] = T.JSArrayOfStringL().of([]);
+    ;
+  }).prototype = mask_text_input_formatter._TextMatcher.prototype;
+  dart.addTypeTests(mask_text_input_formatter._TextMatcher);
+  dart.addTypeCaches(mask_text_input_formatter._TextMatcher);
+  dart.setMethodSignature(mask_text_input_formatter._TextMatcher, () => ({
+    __proto__: dart.getMethods(mask_text_input_formatter._TextMatcher.__proto__),
+    removeRange: dart.fnType(dart.void, [dart.legacy(core.int), dart.legacy(core.int)]),
+    insert: dart.fnType(dart.void, [dart.legacy(core.int), dart.legacy(core.String)]),
+    removeAt: dart.fnType(dart.void, [dart.legacy(core.int)]),
+    _get: dart.fnType(dart.legacy(core.String), [dart.legacy(core.int)]),
+    clear: dart.fnType(dart.void, []),
+    toString: dart.fnType(dart.legacy(core.String), []),
+    [$toString]: dart.fnType(dart.legacy(core.String), []),
+    set: dart.fnType(dart.void, [dart.legacy(core.String)])
+  }));
+  dart.setGetterSignature(mask_text_input_formatter._TextMatcher, () => ({
+    __proto__: dart.getGetters(mask_text_input_formatter._TextMatcher.__proto__),
+    length: dart.legacy(core.int),
+    isEmpty: dart.legacy(core.bool)
+  }));
+  dart.setLibraryUri(mask_text_input_formatter._TextMatcher, I[0]);
+  dart.setFieldSignature(mask_text_input_formatter._TextMatcher, () => ({
+    __proto__: dart.getFields(mask_text_input_formatter._TextMatcher.__proto__),
+    [_symbolArray]: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(core.String))))
+  }));
+  dart.defineExtensionMethods(mask_text_input_formatter._TextMatcher, ['toString']);
+  dart.trackLibraries("packages/mask_text_input_formatter/mask_text_input_formatter.dart", {
+    "package:mask_text_input_formatter/mask_text_input_formatter.dart": mask_text_input_formatter
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["mask_text_input_formatter.dart"],"names":[],"mappings":"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","file":"../../../../../../../packages/mask_text_input_formatter/mask_text_input_formatter.dart.lib.js"}');
+  // Exports:
+  return {
+    mask_text_input_formatter: mask_text_input_formatter
+  };
+}));
+
+//# sourceMappingURL=mask_text_input_formatter.dart.lib.js.map

@@ -1,0 +1,4 @@
+#Wed Apr 14 23:37:01 BRT 2021
+base.0=C\:\\Users\\wilso\\Documents\\GitHub\\comanda_virtual_app\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

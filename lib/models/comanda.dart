@@ -1,7 +1,6 @@
 import 'package:comanda_virtual_app/models/cardapio.dart';
 import 'package:comanda_virtual_app/models/pedido.dart';
 import 'package:comanda_virtual_app/models/produto.dart';
-import 'package:money2/money2.dart';
 
 class Comanda {
   final String name;
@@ -39,5 +38,9 @@ class Comanda {
     if (str.split(',')[1].length < 2) str = str + '0';
 
     return str;
+  }
+
+  void deletAsk(data) {
+    asks.remove(data);
   }
 }

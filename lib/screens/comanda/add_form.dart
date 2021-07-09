@@ -4,7 +4,6 @@ import 'package:comanda_virtual_app/models/comanda.dart';
 import 'package:flutter/material.dart';
 
 class AddComanda extends StatefulWidget {
-  bool buttonEnabled = false;
   @override
   _AddComandaState createState() => _AddComandaState();
 }
@@ -12,6 +11,8 @@ class AddComanda extends StatefulWidget {
 class _AddComandaState extends State<AddComanda> {
   final TextEditingController _controllerName = TextEditingController();
   final TextEditingController _controllerID = TextEditingController();
+
+  bool buttonEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class _AddComandaState extends State<AddComanda> {
           ),
           ConfirmButton(
             'Criar Comanda',
-            action: widget.buttonEnabled ? submit : null,
+            action: buttonEnabled ? submit : null,
           ),
         ],
       ),
@@ -49,9 +50,9 @@ class _AddComandaState extends State<AddComanda> {
 
   void isFormFullFilled2EnableButton(input) {
     if (_controllerName.text.length > 0 && _controllerID.text.length > 0) {
-      setState(() => {widget.buttonEnabled = true});
+      setState(() => {buttonEnabled = true});
     } else {
-      setState(() => {widget.buttonEnabled = false});
+      setState(() => {buttonEnabled = false});
     }
   }
 

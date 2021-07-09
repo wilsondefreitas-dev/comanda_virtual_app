@@ -1,0 +1,412 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/comanda_virtual_app/components/text_input.dart', 'packages/flutter/src/material/icons.dart', 'packages/flutter/src/services/text_input.dart', 'packages/comanda_virtual_app/components/confirm_button.dart', 'packages/comanda_virtual_app/models/comanda.dart'], (function load__packages__comanda_virtual_app__screens__comanda__add_form_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__flutter__src__material__icon_button$46dart, packages__comanda_virtual_app__components__text_input$46dart, packages__flutter__src__material__icons$46dart, packages__flutter__src__services__text_input$46dart, packages__comanda_virtual_app__components__confirm_button$46dart, packages__comanda_virtual_app__models__comanda$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _interceptors = dart_sdk._interceptors;
+  const collection = dart_sdk.collection;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const editable_text = packages__flutter__src__widgets__widget_span$46dart.src__widgets__editable_text;
+  const text = packages__flutter__src__widgets__widget_span$46dart.src__widgets__text;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const navigator = packages__flutter__src__widgets__widget_span$46dart.src__widgets__navigator;
+  const scaffold = packages__flutter__src__material__icon_button$46dart.src__material__scaffold;
+  const app_bar = packages__flutter__src__material__icon_button$46dart.src__material__app_bar;
+  const text_input = packages__comanda_virtual_app__components__text_input$46dart.components__text_input;
+  const icons = packages__flutter__src__material__icons$46dart.src__material__icons;
+  const text_input$ = packages__flutter__src__services__text_input$46dart.src__services__text_input;
+  const confirm_button = packages__comanda_virtual_app__components__confirm_button$46dart.components__confirm_button;
+  const comanda = packages__comanda_virtual_app__models__comanda$46dart.models__comanda;
+  var add_form = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    JSArrayOfWidgetL: () => (T.JSArrayOfWidgetL = dart.constFn(_interceptors.JSArray$(T.WidgetL())))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    LinkedHashSetOfboolL: () => (T.LinkedHashSetOfboolL = dart.constFn(collection.LinkedHashSet$(T.boolL())))(),
+    SetOfboolL: () => (T.SetOfboolL = dart.constFn(core.Set$(T.boolL())))(),
+    SetLOfboolL: () => (T.SetLOfboolL = dart.constFn(dart.legacy(T.SetOfboolL())))(),
+    VoidToSetLOfboolL: () => (T.VoidToSetLOfboolL = dart.constFn(dart.fnType(T.SetLOfboolL(), [])))(),
+    ComandaL: () => (T.ComandaL = dart.constFn(dart.legacy(comanda.Comanda)))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 21,
+        [_Location_line]: 21,
+        [_Location_file]: null
+      });
+    },
+    get C1() {
+      return C[1] = dart.constList([C[2] || CT.C2], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 21,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/screens/comanda/add_form.dart"
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 9,
+        [_Location_line]: 21,
+        [_Location_file]: null
+      });
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "centerTitle",
+        [_Location_column]: 9,
+        [_Location_line]: 22,
+        [_Location_file]: null
+      });
+    },
+    get C4() {
+      return C[4] = dart.constList([C[5] || CT.C5, C[6] || CT.C6], T._LocationL());
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[4] || CT.C4,
+        [_Location_name]: null,
+        [_Location_column]: 15,
+        [_Location_line]: 20,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/screens/comanda/add_form.dart"
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "_label",
+        [_Location_column]: 13,
+        [_Location_line]: 27,
+        [_Location_file]: null
+      });
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onChangeAction",
+        [_Location_column]: 13,
+        [_Location_line]: 28,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "hint",
+        [_Location_column]: 13,
+        [_Location_line]: 29,
+        [_Location_file]: null
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "iconData",
+        [_Location_column]: 13,
+        [_Location_line]: 30,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "controller",
+        [_Location_column]: 13,
+        [_Location_line]: 31,
+        [_Location_file]: null
+      });
+    },
+    get C8() {
+      return C[8] = dart.constList([C[9] || CT.C9, C[10] || CT.C10, C[11] || CT.C11, C[12] || CT.C12, C[13] || CT.C13], T._LocationL());
+    },
+    get C7() {
+      return C[7] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[8] || CT.C8,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 26,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/screens/comanda/add_form.dart"
+      });
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "_label",
+        [_Location_column]: 13,
+        [_Location_line]: 34,
+        [_Location_file]: null
+      });
+    },
+    get C17() {
+      return C[17] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onChangeAction",
+        [_Location_column]: 13,
+        [_Location_line]: 35,
+        [_Location_file]: null
+      });
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "hint",
+        [_Location_column]: 13,
+        [_Location_line]: 36,
+        [_Location_file]: null
+      });
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "iconData",
+        [_Location_column]: 13,
+        [_Location_line]: 37,
+        [_Location_file]: null
+      });
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "controller",
+        [_Location_column]: 13,
+        [_Location_line]: 38,
+        [_Location_file]: null
+      });
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "keyBoardType",
+        [_Location_column]: 13,
+        [_Location_line]: 39,
+        [_Location_file]: null
+      });
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mask",
+        [_Location_column]: 13,
+        [_Location_line]: 40,
+        [_Location_file]: null
+      });
+    },
+    get C15() {
+      return C[15] = dart.constList([C[16] || CT.C16, C[17] || CT.C17, C[18] || CT.C18, C[19] || CT.C19, C[20] || CT.C20, C[21] || CT.C21, C[22] || CT.C22], T._LocationL());
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[15] || CT.C15,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 33,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/screens/comanda/add_form.dart"
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "label",
+        [_Location_column]: 13,
+        [_Location_line]: 43,
+        [_Location_file]: null
+      });
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "action",
+        [_Location_column]: 13,
+        [_Location_line]: 44,
+        [_Location_file]: null
+      });
+    },
+    get C24() {
+      return C[24] = dart.constList([C[25] || CT.C25, C[26] || CT.C26], T._LocationL());
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[24] || CT.C24,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 42,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/screens/comanda/add_form.dart"
+      });
+    },
+    get C29() {
+      return C[29] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 9,
+        [_Location_line]: 25,
+        [_Location_file]: null
+      });
+    },
+    get C28() {
+      return C[28] = dart.constList([C[29] || CT.C29], T._LocationL());
+    },
+    get C27() {
+      return C[27] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[28] || CT.C28,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 24,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/screens/comanda/add_form.dart"
+      });
+    },
+    get C32() {
+      return C[32] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "appBar",
+        [_Location_column]: 7,
+        [_Location_line]: 20,
+        [_Location_file]: null
+      });
+    },
+    get C33() {
+      return C[33] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "body",
+        [_Location_column]: 7,
+        [_Location_line]: 24,
+        [_Location_file]: null
+      });
+    },
+    get C31() {
+      return C[31] = dart.constList([C[32] || CT.C32, C[33] || CT.C33], T._LocationL());
+    },
+    get C30() {
+      return C[30] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[31] || CT.C31,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 19,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/screens/comanda/add_form.dart"
+      });
+    }
+  }, false);
+  var C = Array(34).fill(void 0);
+  var I = ["package:comanda_virtual_app/screens/comanda/add_form.dart"];
+  add_form.AddComanda = class AddComanda extends framework.StatefulWidget {
+    createState() {
+      return new add_form._AddComandaState.new();
+    }
+  };
+  (add_form.AddComanda.new = function(opts) {
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    add_form.AddComanda.__proto__.new.call(this, {$creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = add_form.AddComanda.prototype;
+  dart.addTypeTests(add_form.AddComanda);
+  dart.addTypeCaches(add_form.AddComanda);
+  dart.setMethodSignature(add_form.AddComanda, () => ({
+    __proto__: dart.getMethods(add_form.AddComanda.__proto__),
+    createState: dart.fnType(dart.legacy(add_form._AddComandaState), [])
+  }));
+  dart.setLibraryUri(add_form.AddComanda, I[0]);
+  var _controllerName = dart.privateName(add_form, "_controllerName");
+  var _controllerID = dart.privateName(add_form, "_controllerID");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  add_form._AddComandaState = class _AddComandaState extends framework.State$(dart.legacy(add_form.AddComanda)) {
+    build(context) {
+      return new scaffold.Scaffold.new({appBar: new app_bar.AppBar.new({title: new text.Text.new("Adicionar Nova Comanda", {$creationLocationd_0dea112b090073317d4: C[0] || CT.C0}), centerTitle: true, $creationLocationd_0dea112b090073317d4: C[3] || CT.C3}), body: new basic.Column.new({children: T.JSArrayOfWidgetL().of([new text_input.TextInput.new("Nome do Cliente", dart.bind(this, 'isFormFullFilled2EnableButton'), {hint: "Insira o nome completo...", iconData: icons.Icons.person, controller: this[_controllerName], $creationLocationd_0dea112b090073317d4: C[7] || CT.C7}), new text_input.TextInput.new("RG do Cliente (ou número de identificação)", dart.bind(this, 'isFormFullFilled2EnableButton'), {hint: "00.000.000-0", iconData: icons.Icons.person, controller: this[_controllerID], keyBoardType: text_input$.TextInputType.number, mask: "rg", $creationLocationd_0dea112b090073317d4: C[14] || CT.C14}), new confirm_button.ConfirmButton.new("Criar Comanda", {action: dart.test(this.buttonEnabled) ? dart.bind(this, 'submit') : null, $creationLocationd_0dea112b090073317d4: C[23] || CT.C23})]), $creationLocationd_0dea112b090073317d4: C[27] || CT.C27}), $creationLocationd_0dea112b090073317d4: C[30] || CT.C30});
+    }
+    isFormFullFilled2EnableButton(input) {
+      if (this[_controllerName].text.length > 0 && this[_controllerID].text.length > 0) {
+        this.setState(dart.fn(() => T.LinkedHashSetOfboolL().from([this.buttonEnabled = true]), T.VoidToSetLOfboolL()));
+      } else {
+        this.setState(dart.fn(() => T.LinkedHashSetOfboolL().from([this.buttonEnabled = false]), T.VoidToSetLOfboolL()));
+      }
+    }
+    submit() {
+      navigator.Navigator.pop(T.ComandaL(), this.context, new comanda.Comanda.new(this[_controllerName].text, this[_controllerID].text));
+    }
+  };
+  (add_form._AddComandaState.new = function() {
+    this[_controllerName] = new editable_text.TextEditingController.new();
+    this[_controllerID] = new editable_text.TextEditingController.new();
+    this.buttonEnabled = false;
+    add_form._AddComandaState.__proto__.new.call(this);
+    ;
+  }).prototype = add_form._AddComandaState.prototype;
+  dart.addTypeTests(add_form._AddComandaState);
+  dart.addTypeCaches(add_form._AddComandaState);
+  dart.setMethodSignature(add_form._AddComandaState, () => ({
+    __proto__: dart.getMethods(add_form._AddComandaState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    isFormFullFilled2EnableButton: dart.fnType(dart.void, [dart.dynamic]),
+    submit: dart.fnType(dart.void, [])
+  }));
+  dart.setLibraryUri(add_form._AddComandaState, I[0]);
+  dart.setFieldSignature(add_form._AddComandaState, () => ({
+    __proto__: dart.getFields(add_form._AddComandaState.__proto__),
+    [_controllerName]: dart.finalFieldType(dart.legacy(editable_text.TextEditingController)),
+    [_controllerID]: dart.finalFieldType(dart.legacy(editable_text.TextEditingController)),
+    buttonEnabled: dart.fieldType(dart.legacy(core.bool))
+  }));
+  dart.trackLibraries("packages/comanda_virtual_app/screens/comanda/add_form.dart", {
+    "package:comanda_virtual_app/screens/comanda/add_form.dart": add_form
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["add_form.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAOoC;IAAkB;;;;;;EACtD;;;;;;;;;;;;;;;;UAS4B;AACxB,YAAO,oCACG,+BACC,kBAAK,iGACC,qEAET,gCACc,yBAChB,6BACE,6BACA,+CACM,uCACU,gCACJ,gFAEd,6BACE,wDACA,+CACM,0BACU,gCACJ,mCACgB,wCACtB,iEAER,qCACE,oCACQ,gCAAgB,kBAAS;IAK3C;kCAEmC;AACjC,UAAI,AAAgB,AAAK,AAAO,oCAAE,KAAK,AAAc,AAAK,AAAO,kCAAE;AAC3B,QAAtC,cAAS,cAAM,+BAAC,qBAAgB;;AAEO,QAAvC,cAAS,cAAM,+BAAC,qBAAgB;;IAEpC;;AAIqE,MADzD,sCACN,cAAa,wBAAQ,AAAgB,4BAAM,AAAc;IAC/D;;;IAlD4B,wBAAkB;IAClB,sBAAgB;IAEvC,qBAAgB;;;EAgDvB","file":"../../../../../../../../packages/comanda_virtual_app/screens/comanda/add_form.dart.lib.js"}');
+  // Exports:
+  return {
+    screens__comanda__add_form: add_form
+  };
+}));
+
+//# sourceMappingURL=add_form.dart.lib.js.map

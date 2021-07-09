@@ -1,0 +1,1241 @@
+define(['dart_sdk', 'packages/intl/src/intl/number_parser.dart', 'packages/money2/src/minor_units.dart'], (function load__packages__money2__src__pattern_encoder_dart(dart_sdk, packages__intl__src__intl__number_parser$46dart, packages__money2__src__minor_units$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const math = dart_sdk.math;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const number_format = packages__intl__src__intl__number_parser$46dart.src__intl__number_format;
+  const minor_units = packages__money2__src__minor_units$46dart.src__minor_units;
+  var pattern_encoder = Object.create(dart.library);
+  var pattern_decoder = Object.create(dart.library);
+  var money_data = Object.create(dart.library);
+  var encoders = Object.create(dart.library);
+  var money = Object.create(dart.library);
+  var currency$ = Object.create(dart.library);
+  var $length = dartx.length;
+  var $allMatches = dartx.allMatches;
+  var $indexOf = dartx.indexOf;
+  var $substring = dartx.substring;
+  var $_get = dartx._get;
+  var $replaceAll = dartx.replaceAll;
+  var $padLeft = dartx.padLeft;
+  var $padRight = dartx.padRight;
+  var $contains = dartx.contains;
+  var $isEmpty = dartx.isEmpty;
+  var $first = dartx.first;
+  var $replaceFirst = dartx.replaceFirst;
+  var $times = dartx['*'];
+  var $toInt = dartx.toInt;
+  var $map = dartx.map;
+  var $toList = dartx.toList;
+  var $compareTo = dartx.compareTo;
+  var $_equals = dartx._equals;
+  var $hashCode = dartx.hashCode;
+  var $isNegative = dartx.isNegative;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    VoidToString: () => (T.VoidToString = dart.constFn(dart.fnType(core.String, [])))(),
+    ListOfint: () => (T.ListOfint = dart.constFn(core.List$(core.int)))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  var C = [];
+  var I = [
+    "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/money2-2.0.2/lib/src/pattern_encoder.dart",
+    "package:money2/src/pattern_encoder.dart",
+    "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/money2-2.0.2/lib/src/pattern_decoder.dart",
+    "package:money2/src/pattern_decoder.dart",
+    "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/money2-2.0.2/lib/src/money_data.dart",
+    "package:money2/src/money_data.dart",
+    "package:money2/src/encoders.dart",
+    "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/money2-2.0.2/lib/src/money.dart",
+    "package:money2/src/money.dart",
+    "file:///C:/src/flutter/.pub-cache/hosted/pub.dartlang.org/money2-2.0.2/lib/src/currency.dart",
+    "package:money2/src/currency.dart"
+  ];
+  var money$ = dart.privateName(pattern_encoder, "PatternEncoder.money");
+  var pattern$ = dart.privateName(pattern_encoder, "PatternEncoder.pattern");
+  pattern_encoder.PatternEncoder = class PatternEncoder extends core.Object {
+    get money() {
+      return this[money$];
+    }
+    set money(value) {
+      this[money$] = value;
+    }
+    get pattern() {
+      return this[pattern$];
+    }
+    set pattern(value) {
+      this[pattern$] = value;
+    }
+    encode(data) {
+      if (data == null) dart.nullFailed(I[0], 24, 27, "data");
+      let formatted = null;
+      let decimalSeperatorCount = data.currency.decimalSeparator[$allMatches](this.pattern)[$length];
+      if (dart.notNull(decimalSeperatorCount) > 1) {
+        dart.throw(new pattern_encoder.IllegalPatternException.new("A format Pattern may contain, at most, a single decimal " + "separator '" + dart.str(data.currency.decimalSeparator) + "'"));
+      }
+      let decimalSeparatorIndex = this.pattern[$indexOf](data.currency.decimalSeparator);
+      let hasMinor = true;
+      if (decimalSeparatorIndex === -1) {
+        decimalSeparatorIndex = this.pattern.length;
+        hasMinor = false;
+      }
+      let majorPattern = this.pattern[$substring](0, decimalSeparatorIndex);
+      formatted = this.formatMajorPart(data, majorPattern);
+      if (hasMinor) {
+        let minorPattern = this.pattern[$substring](decimalSeparatorIndex + 1);
+        formatted = dart.notNull(formatted) + (dart.notNull(data.currency.decimalSeparator) + dart.notNull(this.formatMinorPart(data, minorPattern)));
+      }
+      return formatted;
+    }
+    formatMajorPart(data, majorPattern) {
+      if (data == null) dart.nullFailed(I[0], 57, 36, "data");
+      if (majorPattern == null) dart.nullFailed(I[0], 57, 55, "majorPattern");
+      let formatted = "";
+      let moneyPattern = this.getMoneyPattern(majorPattern);
+      this.checkZeros(moneyPattern, data.currency.thousandSeparator, {minor: false});
+      let majorUnits = data.getMajorUnits();
+      let formattedMajorUnits = this.getFormattedMajorUnits(data, moneyPattern, majorUnits);
+      let compressedMajorPattern = this.compressMoney(majorPattern);
+      let code = this.getCode(data, compressedMajorPattern);
+      compressedMajorPattern = this.compressC(compressedMajorPattern);
+      this.validateS(compressedMajorPattern);
+      for (let i = 0; i < compressedMajorPattern.length; i = i + 1) {
+        let char = compressedMajorPattern[$_get](i);
+        switch (char) {
+          case "S":
+          {
+            formatted = formatted + dart.notNull(data.currency.symbol);
+            break;
+          }
+          case "C":
+          {
+            formatted = formatted + dart.notNull(code);
+            break;
+          }
+          case "#":
+          {
+            formatted = formatted + dart.notNull(formattedMajorUnits);
+            break;
+          }
+          case " ":
+          {
+            formatted = formatted + " ";
+            break;
+          }
+          case "0":
+          case ",":
+          case ".":
+          default:
+          {
+            dart.throw(new pattern_encoder.IllegalPatternException.new("The pattern contains an unknown character: '" + char + "'"));
+          }
+        }
+      }
+      return formatted;
+    }
+    getFormattedMajorUnits(data, moneyPattern, majorUnits) {
+      if (data == null) dart.nullFailed(I[0], 110, 17, "data");
+      if (moneyPattern == null) dart.nullFailed(I[0], 110, 36, "moneyPattern");
+      if (majorUnits == null) dart.nullFailed(I[0], 110, 57, "majorUnits");
+      let normalisedMoneyPattern = null;
+      if (dart.test(data.currency.invertSeparators)) {
+        normalisedMoneyPattern = moneyPattern[$replaceAll](".", ",");
+      } else {
+        normalisedMoneyPattern = moneyPattern;
+      }
+      let formattedMajorUnits = number_format.NumberFormat.new(normalisedMoneyPattern).format(majorUnits.toInt());
+      if (!dart.test(majorUnits.isNegative) && dart.test(data.minorUnits.isNegative)) {
+        formattedMajorUnits = "-" + dart.str(formattedMajorUnits);
+      }
+      if (dart.test(data.currency.invertSeparators)) {
+        formattedMajorUnits = formattedMajorUnits[$replaceAll](",", ".");
+      }
+      return formattedMajorUnits;
+    }
+    getCode(data, pattern) {
+      if (data == null) dart.nullFailed(I[0], 136, 28, "data");
+      if (pattern == null) dart.nullFailed(I[0], 136, 41, "pattern");
+      let codeLength = "C"[$allMatches](pattern)[$length];
+      let code = null;
+      if (codeLength === 3) {
+        code = data.currency.code;
+      } else {
+        code = data.currency.code[$substring](0, math.min(core.int, codeLength, data.currency.code.length));
+      }
+      return code;
+    }
+    getMoneyPattern(pattern) {
+      if (pattern == null) dart.nullFailed(I[0], 155, 33, "pattern");
+      let foundMoney = false;
+      let inMoney = false;
+      let moneyPattern = "";
+      for (let i = 0; i < pattern.length; i = i + 1) {
+        let char = pattern[$_get](i);
+        switch (char) {
+          case "S":
+          {
+            inMoney = false;
+            break;
+          }
+          case "C":
+          {
+            inMoney = false;
+            break;
+          }
+          case "#":
+          {
+            inMoney = true;
+            foundMoney = true;
+            this.isMoneyAllowed({inMoney: inMoney, foundMoney: foundMoney, pos: i});
+            moneyPattern = moneyPattern + "#";
+            break;
+          }
+          case "0":
+          {
+            this.isMoneyAllowed({inMoney: inMoney, foundMoney: foundMoney, pos: i});
+            moneyPattern = moneyPattern + "0";
+            inMoney = true;
+            foundMoney = true;
+            break;
+          }
+          case ",":
+          {
+            this.isMoneyAllowed({inMoney: inMoney, foundMoney: foundMoney, pos: i});
+            moneyPattern = moneyPattern + ",";
+            inMoney = true;
+            foundMoney = true;
+            break;
+          }
+          case ".":
+          {
+            this.isMoneyAllowed({inMoney: inMoney, foundMoney: foundMoney, pos: i});
+            moneyPattern = moneyPattern + ".";
+            inMoney = true;
+            foundMoney = true;
+            break;
+          }
+          case " ":
+          {
+            inMoney = false;
+            break;
+          }
+          default:
+          {
+            dart.throw(new pattern_encoder.IllegalPatternException.new("The pattern contains an unknown character: '" + char + "'"));
+          }
+        }
+      }
+      return moneyPattern;
+    }
+    formatMinorPart(data, minorPattern) {
+      if (data == null) dart.nullFailed(I[0], 207, 36, "data");
+      if (minorPattern == null) dart.nullFailed(I[0], 207, 49, "minorPattern");
+      let formatted = "";
+      let moneyPattern = this.getMoneyPattern(minorPattern);
+      this.checkZeros(moneyPattern, data.currency.thousandSeparator, {minor: true});
+      let requiredPatternWidth = 0;
+      let firstZero = moneyPattern[$indexOf]("0");
+      if (firstZero !== -1) {
+        requiredPatternWidth = moneyPattern.length;
+      }
+      if (moneyPattern.length > dart.notNull(data.currency.precision)) {
+        moneyPattern = moneyPattern[$substring](0, data.currency.precision);
+      }
+      let minorUnits = data.getMinorUnits();
+      let formattedMinorUnits = number_format.NumberFormat.new(moneyPattern).format(minorUnits['+'](data.currency.precisionFactor).toInt())[$substring](1);
+      if (moneyPattern.length < formattedMinorUnits.length) {
+        formattedMinorUnits = formattedMinorUnits[$substring](0, moneyPattern.length);
+      }
+      if (dart.notNull(minorUnits.toInt()) >= dart.notNull(data.currency.precisionFactor.toInt())) {
+        formatted = this.invertZeros(formatted);
+      }
+      if (formattedMinorUnits.length < moneyPattern.length) {
+        formattedMinorUnits[$padLeft](moneyPattern.length - formatted.length, "0");
+      }
+      if (requiredPatternWidth !== 0) {
+        formattedMinorUnits = formattedMinorUnits[$padRight](requiredPatternWidth, "0");
+      }
+      if (0 !== 0) {
+        formattedMinorUnits = formattedMinorUnits[$padRight](0, "0");
+      }
+      let compressedMinorPattern = this.compressMoney(minorPattern);
+      let code = this.getCode(data, compressedMinorPattern);
+      compressedMinorPattern = this.compressC(compressedMinorPattern);
+      this.validateS(minorPattern);
+      for (let i = 0; i < compressedMinorPattern.length; i = i + 1) {
+        let char = compressedMinorPattern[$_get](i);
+        switch (char) {
+          case "S":
+          {
+            formatted = dart.notNull(formatted) + dart.notNull(data.currency.symbol);
+            break;
+          }
+          case "C":
+          {
+            formatted = dart.notNull(formatted) + dart.notNull(code);
+            break;
+          }
+          case "#":
+          {
+            formatted = dart.notNull(formatted) + formattedMinorUnits;
+            break;
+          }
+          case " ":
+          {
+            formatted = dart.notNull(formatted) + " ";
+            break;
+          }
+          case "0":
+          case ",":
+          case ".":
+          default:
+          {
+            dart.throw(new pattern_encoder.IllegalPatternException.new("The minor part of the pattern contains an unexpected character: '" + char + "'"));
+          }
+        }
+      }
+      return formatted;
+    }
+    countMajorPatternDigits(pattern, decimalSeparator) {
+      if (pattern == null) dart.nullFailed(I[0], 324, 38, "pattern");
+      if (decimalSeparator == null) dart.nullFailed(I[0], 324, 54, "decimalSeparator");
+      let count = 0;
+      for (let i = 0; i < pattern.length; i = i + 1) {
+        let char = pattern[$_get](i);
+        if (char === decimalSeparator) {
+          break;
+        }
+        if (char === "#" || char === "0") {
+          count = count + 1;
+        }
+      }
+      return count;
+    }
+    countMinorPatternDigits(pattern, decimalSeparator) {
+      if (pattern == null) dart.nullFailed(I[0], 340, 38, "pattern");
+      if (decimalSeparator == null) dart.nullFailed(I[0], 340, 54, "decimalSeparator");
+      let count = 0;
+      let foundDecimalSeparator = false;
+      for (let i = 0; i < pattern.length; i = i + 1) {
+        let char = pattern[$_get](i);
+        if (char === decimalSeparator) {
+          foundDecimalSeparator = true;
+        }
+        if (!foundDecimalSeparator) {
+          continue;
+        }
+        if (char === "#" || char === "0") {
+          count = count + 1;
+        }
+      }
+      return count;
+    }
+    isMoneyAllowed(opts) {
+      let inMoney = opts && 'inMoney' in opts ? opts.inMoney : null;
+      if (inMoney == null) dart.nullFailed(I[0], 363, 22, "inMoney");
+      let foundMoney = opts && 'foundMoney' in opts ? opts.foundMoney : null;
+      if (foundMoney == null) dart.nullFailed(I[0], 363, 45, "foundMoney");
+      let pos = opts && 'pos' in opts ? opts.pos : null;
+      if (pos == null) dart.nullFailed(I[0], 363, 70, "pos");
+      if (!dart.test(inMoney) && dart.test(foundMoney)) {
+        dart.throw(new pattern_encoder.IllegalPatternException.new("Found a 0 at location " + dart.str(pos) + ". " + "All money characters (0#,.)must be contiguous"));
+      }
+    }
+    compressC(majorPattern) {
+      if (majorPattern == null) dart.nullFailed(I[0], 372, 33, "majorPattern");
+      let compressedMajorPattern = majorPattern[$replaceAll](core.RegExp.new("[C]+"), "C");
+      if (dart.notNull("C"[$allMatches](compressedMajorPattern)[$length]) > 1) {
+        dart.throw(new pattern_encoder.IllegalPatternException.new("The pattern may only contain a single contigous group of 'C's"));
+      }
+      return compressedMajorPattern;
+    }
+    validateS(majorPattern) {
+      if (majorPattern == null) dart.nullFailed(I[0], 384, 25, "majorPattern");
+      if (dart.notNull("S"[$allMatches](majorPattern)[$length]) > 1) {
+        dart.throw(new pattern_encoder.IllegalPatternException.new("The pattern may only contain a single 'S's"));
+      }
+    }
+    compressMoney(majorPattern) {
+      if (majorPattern == null) dart.nullFailed(I[0], 393, 31, "majorPattern");
+      return majorPattern[$replaceAll](core.RegExp.new("[#|0|,|\\.]+"), "#");
+    }
+    checkZeros(moneyPattern, thousandSeparator, opts) {
+      if (moneyPattern == null) dart.nullFailed(I[0], 399, 32, "moneyPattern");
+      if (thousandSeparator == null) dart.nullFailed(I[0], 399, 59, "thousandSeparator");
+      let minor = opts && 'minor' in opts ? opts.minor : null;
+      if (minor == null) dart.nullFailed(I[0], 400, 22, "minor");
+      if (!moneyPattern[$contains]("0")) return;
+      let illegalPattern = new pattern_encoder.IllegalPatternException.new("The '0' pattern characters must only be at the end of the pattern for " + (dart.test(minor) ? "Minor" : "Major") + " Units");
+      let comppressedMoneyPattern = moneyPattern[$replaceAll](core.RegExp.new("0+"), "0");
+      if (comppressedMoneyPattern[$_get](comppressedMoneyPattern.length - 1) !== "0") {
+        dart.throw(illegalPattern);
+      }
+      let zerosEnded = false;
+      let len = comppressedMoneyPattern.length - 1;
+      for (let i = len; i > 0; i = i - 1) {
+        let char = comppressedMoneyPattern[$_get](i);
+        let isValid = char === "0";
+        if (!zerosEnded) isValid = !!(isValid & char === thousandSeparator);
+        if (isValid && zerosEnded) {
+          dart.throw(illegalPattern);
+        }
+        if (!isValid) zerosEnded = true;
+      }
+    }
+    invertZeros(formatted) {
+      if (formatted == null) dart.nullFailed(I[0], 435, 29, "formatted");
+      let trailingZeros = "";
+      let result = "";
+      for (let i = 0; i < formatted.length; i = i + 1) {
+        let char = formatted[$_get](i);
+        if (char === "0" && result[$isEmpty]) {
+          trailingZeros = trailingZeros + "0";
+        } else {
+          result = result + char;
+        }
+      }
+      return result + trailingZeros;
+    }
+  };
+  (pattern_encoder.PatternEncoder.new = function(money, pattern) {
+    if (money == null) dart.nullFailed(I[0], 19, 10, "money");
+    if (pattern == null) dart.nullFailed(I[0], 20, 10, "pattern");
+    this[money$] = money;
+    this[pattern$] = pattern;
+    ;
+  }).prototype = pattern_encoder.PatternEncoder.prototype;
+  dart.addTypeTests(pattern_encoder.PatternEncoder);
+  dart.addTypeCaches(pattern_encoder.PatternEncoder);
+  pattern_encoder.PatternEncoder[dart.implements] = () => [encoders.MoneyEncoder$(core.String)];
+  dart.setMethodSignature(pattern_encoder.PatternEncoder, () => ({
+    __proto__: dart.getMethods(pattern_encoder.PatternEncoder.__proto__),
+    encode: dart.fnType(core.String, [money_data.MoneyData]),
+    formatMajorPart: dart.fnType(core.String, [money_data.MoneyData, core.String]),
+    getFormattedMajorUnits: dart.fnType(core.String, [money_data.MoneyData, core.String, core.BigInt]),
+    getCode: dart.fnType(core.String, [money_data.MoneyData, core.String]),
+    getMoneyPattern: dart.fnType(core.String, [core.String]),
+    formatMinorPart: dart.fnType(core.String, [money_data.MoneyData, core.String]),
+    countMajorPatternDigits: dart.fnType(core.int, [core.String, core.String]),
+    countMinorPatternDigits: dart.fnType(core.int, [core.String, core.String]),
+    isMoneyAllowed: dart.fnType(dart.void, [], {}, {foundMoney: core.bool, inMoney: core.bool, pos: core.int}),
+    compressC: dart.fnType(core.String, [core.String]),
+    validateS: dart.fnType(dart.void, [core.String]),
+    compressMoney: dart.fnType(core.String, [core.String]),
+    checkZeros: dart.fnType(dart.void, [core.String, core.String], {}, {minor: core.bool}),
+    invertZeros: dart.fnType(core.String, [core.String])
+  }));
+  dart.setLibraryUri(pattern_encoder.PatternEncoder, I[1]);
+  dart.setFieldSignature(pattern_encoder.PatternEncoder, () => ({
+    __proto__: dart.getFields(pattern_encoder.PatternEncoder.__proto__),
+    money: dart.fieldType(money.Money),
+    pattern: dart.fieldType(core.String)
+  }));
+  var message$ = dart.privateName(pattern_encoder, "IllegalPatternException.message");
+  pattern_encoder.IllegalPatternException = class IllegalPatternException extends core.Object {
+    get message() {
+      return this[message$];
+    }
+    set message(value) {
+      this[message$] = value;
+    }
+    toString() {
+      return this.message;
+    }
+  };
+  (pattern_encoder.IllegalPatternException.new = function(message) {
+    if (message == null) dart.nullFailed(I[0], 457, 32, "message");
+    this[message$] = message;
+    ;
+  }).prototype = pattern_encoder.IllegalPatternException.prototype;
+  dart.addTypeTests(pattern_encoder.IllegalPatternException);
+  dart.addTypeCaches(pattern_encoder.IllegalPatternException);
+  pattern_encoder.IllegalPatternException[dart.implements] = () => [core.Exception];
+  dart.setLibraryUri(pattern_encoder.IllegalPatternException, I[1]);
+  dart.setFieldSignature(pattern_encoder.IllegalPatternException, () => ({
+    __proto__: dart.getFields(pattern_encoder.IllegalPatternException.__proto__),
+    message: dart.fieldType(core.String)
+  }));
+  dart.defineExtensionMethods(pattern_encoder.IllegalPatternException, ['toString']);
+  var currency$0 = dart.privateName(pattern_decoder, "PatternDecoder.currency");
+  var pattern$0 = dart.privateName(pattern_decoder, "PatternDecoder.pattern");
+  pattern_decoder.PatternDecoder = class PatternDecoder extends core.Object {
+    get currency() {
+      return this[currency$0];
+    }
+    set currency(value) {
+      super.currency = value;
+    }
+    get pattern() {
+      return this[pattern$0];
+    }
+    set pattern(value) {
+      super.pattern = value;
+    }
+    decode(monetaryValue) {
+      core.String.as(monetaryValue);
+      if (monetaryValue == null) dart.nullFailed(I[2], 26, 33, "monetaryValue");
+      let negativeOne = core._BigIntImpl.from(-1);
+      let majorUnits = core.BigInt.zero;
+      let minorUnits = core.BigInt.zero;
+      let code = this.currency.code;
+      let compressedPattern = this.compressDigits(this.pattern);
+      compressedPattern = this.compressWhitespace(compressedPattern);
+      let compressedMonetaryValue = this.compressWhitespace(monetaryValue);
+      let codeIndex = 0;
+      let isNegative = false;
+      let seenMajor = false;
+      let valueQueue = new pattern_decoder.ValueQueue.new(compressedMonetaryValue, this.currency.thousandSeparator);
+      for (let i = 0; i < compressedPattern.length; i = i + 1) {
+        switch (compressedPattern[$_get](i)) {
+          case "S":
+          {
+            let symbol = valueQueue.takeN(this.currency.symbol.length);
+            if (symbol != this.currency.symbol) {
+              dart.throw(money.MoneyParseException.fromValue(compressedPattern, i, compressedMonetaryValue, valueQueue.index));
+            }
+            break;
+          }
+          case "C":
+          {
+            if (codeIndex >= code.length) {
+              dart.throw(new money.MoneyParseException.new("The pattern has more currency code \"C\" characters " + "(" + dart.str(codeIndex) + " + 1) than the length of the passed currency."));
+            }
+            let char = valueQueue.takeOne();
+            if (char !== code[$_get](codeIndex)) {
+              dart.throw(money.MoneyParseException.fromValue(compressedPattern, i, compressedMonetaryValue, valueQueue.index));
+            }
+            codeIndex = codeIndex + 1;
+            break;
+          }
+          case "#":
+          {
+            if (!seenMajor) {
+              let char = valueQueue.peek();
+              if (char === "-") {
+                valueQueue.takeOne();
+                isNegative = true;
+              }
+            }
+            if (seenMajor) {
+              minorUnits = valueQueue.takeMinorDigits(this.currency);
+            } else {
+              majorUnits = valueQueue.takeMajorDigits();
+            }
+            break;
+          }
+          case ".":
+          {
+            let char = valueQueue.takeOne();
+            if (char != this.currency.decimalSeparator) {
+              dart.throw(money.MoneyParseException.fromValue(compressedPattern, i, compressedMonetaryValue, valueQueue.index));
+            }
+            seenMajor = true;
+            break;
+          }
+          case " ":
+          {
+            break;
+          }
+          default:
+          {
+            dart.throw(new money.MoneyParseException.new("Invalid character \"" + compressedPattern[$_get](i) + "\" found in pattern."));
+          }
+        }
+      }
+      if (isNegative) {
+        majorUnits = majorUnits['*'](negativeOne);
+        minorUnits = minorUnits['*'](negativeOne);
+      }
+      let value = this.currency.toMinorUnits(majorUnits, minorUnits);
+      let result = new money_data.MoneyData.from(value, this.currency);
+      return result;
+    }
+    compressDigits(pattern) {
+      if (pattern == null) dart.nullFailed(I[2], 110, 32, "pattern");
+      let decimalSeparator = this.currency.decimalSeparator;
+      let thousandsSeparator = this.currency.thousandSeparator;
+      let result = "";
+      let regExPattern = "([#|0|" + dart.str(thousandsSeparator) + "]+)(?:" + dart.str(decimalSeparator) + "([#|0]+))?";
+      let regEx = core.RegExp.new(regExPattern);
+      let matches = regEx.allMatches(pattern);
+      if (dart.test(matches[$isEmpty])) {
+        dart.throw(new money.MoneyParseException.new("The pattern did not contain a valid pattern such as \"0.00\""));
+      }
+      if (matches[$length] !== 1) {
+        dart.throw(new money.MoneyParseException.new("The pattern contained more than one numberic pattern." + " Check you don't have spaces in the numeric parts of the pattern."));
+      }
+      let match = matches[$first];
+      if (match.group(1) != null && match.group(2) != null) {
+        result = pattern[$replaceFirst](regEx, "#.#");
+      } else if (match.group(1) != null) {
+        result = pattern[$replaceFirst](regEx, "#");
+      } else if (match.group(2) != null) {
+        result = pattern[$replaceFirst](regEx, ".#");
+      }
+      return result;
+    }
+    compressWhitespace(value) {
+      if (value == null) dart.nullFailed(I[2], 148, 36, "value");
+      let regEx = core.RegExp.new("\\s+");
+      return value[$replaceAll](regEx, "");
+    }
+  };
+  (pattern_decoder.PatternDecoder.new = function(currency, pattern) {
+    if (currency == null) dart.nullFailed(I[2], 18, 10, "currency");
+    if (pattern == null) dart.nullFailed(I[2], 19, 10, "pattern");
+    this[currency$0] = currency;
+    this[pattern$0] = pattern;
+    core.ArgumentError.checkNotNull(currency$.Currency, this.currency, "currency");
+    core.ArgumentError.checkNotNull(core.String, this.pattern, "pattern");
+  }).prototype = pattern_decoder.PatternDecoder.prototype;
+  dart.addTypeTests(pattern_decoder.PatternDecoder);
+  dart.addTypeCaches(pattern_decoder.PatternDecoder);
+  pattern_decoder.PatternDecoder[dart.implements] = () => [encoders.MoneyDecoder$(core.String)];
+  dart.setMethodSignature(pattern_decoder.PatternDecoder, () => ({
+    __proto__: dart.getMethods(pattern_decoder.PatternDecoder.__proto__),
+    decode: dart.fnType(money_data.MoneyData, [dart.nullable(core.Object)]),
+    compressDigits: dart.fnType(core.String, [core.String]),
+    compressWhitespace: dart.fnType(core.String, [core.String])
+  }));
+  dart.setLibraryUri(pattern_decoder.PatternDecoder, I[3]);
+  dart.setFieldSignature(pattern_decoder.PatternDecoder, () => ({
+    __proto__: dart.getFields(pattern_decoder.PatternDecoder.__proto__),
+    currency: dart.finalFieldType(currency$.Currency),
+    pattern: dart.finalFieldType(core.String)
+  }));
+  var monetaryValue$ = dart.privateName(pattern_decoder, "ValueQueue.monetaryValue");
+  var index = dart.privateName(pattern_decoder, "ValueQueue.index");
+  var thousandsSeparator$ = dart.privateName(pattern_decoder, "ValueQueue.thousandsSeparator");
+  var lastTake = dart.privateName(pattern_decoder, "ValueQueue.lastTake");
+  var _takeDigits = dart.privateName(pattern_decoder, "_takeDigits");
+  pattern_decoder.ValueQueue = class ValueQueue extends core.Object {
+    get monetaryValue() {
+      return this[monetaryValue$];
+    }
+    set monetaryValue(value) {
+      this[monetaryValue$] = value;
+    }
+    get index() {
+      return this[index];
+    }
+    set index(value) {
+      this[index] = value;
+    }
+    get thousandsSeparator() {
+      return this[thousandsSeparator$];
+    }
+    set thousandsSeparator(value) {
+      this[thousandsSeparator$] = value;
+    }
+    get lastTake() {
+      return this[lastTake];
+    }
+    set lastTake(value) {
+      this[lastTake] = value;
+    }
+    peek() {
+      return this.monetaryValue[$_get](this.index);
+    }
+    takeOne() {
+      let t0;
+      return this.lastTake = this.monetaryValue[$_get]((t0 = this.index, this.index = dart.notNull(t0) + 1, t0));
+    }
+    takeN(n) {
+      if (n == null) dart.nullFailed(I[2], 181, 20, "n");
+      let end = dart.notNull(this.index) + dart.notNull(n);
+      end = math.min(core.int, end, this.monetaryValue.length);
+      let take = this.lastTake = this.monetaryValue[$substring](this.index, end);
+      this.index = dart.notNull(this.index) + dart.notNull(n);
+      return take;
+    }
+    takeMajorDigits() {
+      return core.BigInt.parse(this[_takeDigits]());
+    }
+    isDigit(char) {
+      if (char == null) dart.nullFailed(I[2], 199, 23, "char");
+      return core.RegExp.new("[0123456789]").hasMatch(char);
+    }
+    takeMinorDigits(currency) {
+      if (currency == null) dart.nullFailed(I[2], 210, 35, "currency");
+      let digits = this[_takeDigits]();
+      if (digits.length < dart.notNull(currency.precision)) {
+        digits = dart.notNull(digits) + "0"[$times](math.max(core.int, 0, dart.notNull(currency.precision) - digits.length));
+      }
+      if (digits.length > dart.notNull(currency.precision)) {
+        digits = digits[$substring](0, currency.precision);
+      }
+      return core.BigInt.parse(digits);
+    }
+    [_takeDigits]() {
+      let digits = "";
+      while (dart.notNull(this.index) < this.monetaryValue.length && (dart.test(this.isDigit(this.monetaryValue[$_get](this.index))) || this.monetaryValue[$_get](this.index) === this.thousandsSeparator)) {
+        if (this.monetaryValue[$_get](this.index) !== this.thousandsSeparator) {
+          digits = digits + this.monetaryValue[$_get](this.index);
+        }
+        this.index = dart.notNull(this.index) + 1;
+      }
+      if (digits[$isEmpty]) {
+        dart.throw(new money.MoneyParseException.new("Character \"" + this.monetaryValue[$_get](this.index) + "\" at pos " + dart.str(this.index) + " is not a digit when a digit was expected"));
+      }
+      return digits;
+    }
+  };
+  (pattern_decoder.ValueQueue.new = function(monetaryValue, thousandsSeparator) {
+    if (monetaryValue == null) dart.nullFailed(I[2], 171, 19, "monetaryValue");
+    if (thousandsSeparator == null) dart.nullFailed(I[2], 171, 39, "thousandsSeparator");
+    this[index] = 0;
+    this[lastTake] = null;
+    this[monetaryValue$] = monetaryValue;
+    this[thousandsSeparator$] = thousandsSeparator;
+    ;
+  }).prototype = pattern_decoder.ValueQueue.prototype;
+  dart.addTypeTests(pattern_decoder.ValueQueue);
+  dart.addTypeCaches(pattern_decoder.ValueQueue);
+  dart.setMethodSignature(pattern_decoder.ValueQueue, () => ({
+    __proto__: dart.getMethods(pattern_decoder.ValueQueue.__proto__),
+    peek: dart.fnType(core.String, []),
+    takeOne: dart.fnType(core.String, []),
+    takeN: dart.fnType(core.String, [core.int]),
+    takeMajorDigits: dart.fnType(core.BigInt, []),
+    isDigit: dart.fnType(core.bool, [core.String]),
+    takeMinorDigits: dart.fnType(core.BigInt, [currency$.Currency]),
+    [_takeDigits]: dart.fnType(core.String, [])
+  }));
+  dart.setLibraryUri(pattern_decoder.ValueQueue, I[3]);
+  dart.setFieldSignature(pattern_decoder.ValueQueue, () => ({
+    __proto__: dart.getFields(pattern_decoder.ValueQueue.__proto__),
+    monetaryValue: dart.fieldType(core.String),
+    index: dart.fieldType(core.int),
+    thousandsSeparator: dart.fieldType(core.String),
+    lastTake: dart.fieldType(dart.nullable(core.String))
+  }));
+  var minorUnits$ = dart.privateName(money_data, "MoneyData.minorUnits");
+  var currency$1 = dart.privateName(money_data, "MoneyData.currency");
+  money_data.MoneyData = class MoneyData extends core.Object {
+    get minorUnits() {
+      return this[minorUnits$];
+    }
+    set minorUnits(value) {
+      super.minorUnits = value;
+    }
+    get currency() {
+      return this[currency$1];
+    }
+    set currency(value) {
+      super.currency = value;
+    }
+    getMajorUnits() {
+      return this.minorUnits['~/'](this.currency.precisionFactor);
+    }
+    getMinorUnits() {
+      if (dart.test(this.minorUnits.isNegative)) {
+        return this.minorUnits._negate()['%'](this.currency.precisionFactor);
+      }
+      return this.minorUnits['%'](this.currency.precisionFactor);
+    }
+  };
+  (money_data.MoneyData.from = function(minorUnits, currency) {
+    if (minorUnits == null) dart.nullFailed(I[4], 41, 29, "minorUnits");
+    if (currency == null) dart.nullFailed(I[4], 41, 46, "currency");
+    this[minorUnits$] = minorUnits;
+    this[currency$1] = currency;
+    ;
+  }).prototype = money_data.MoneyData.prototype;
+  dart.addTypeTests(money_data.MoneyData);
+  dart.addTypeCaches(money_data.MoneyData);
+  dart.setMethodSignature(money_data.MoneyData, () => ({
+    __proto__: dart.getMethods(money_data.MoneyData.__proto__),
+    getMajorUnits: dart.fnType(core.BigInt, []),
+    getMinorUnits: dart.fnType(core.BigInt, [])
+  }));
+  dart.setLibraryUri(money_data.MoneyData, I[5]);
+  dart.setFieldSignature(money_data.MoneyData, () => ({
+    __proto__: dart.getFields(money_data.MoneyData.__proto__),
+    minorUnits: dart.finalFieldType(core.BigInt),
+    currency: dart.finalFieldType(currency$.Currency)
+  }));
+  const _is_MoneyEncoder_default = Symbol('_is_MoneyEncoder_default');
+  encoders.MoneyEncoder$ = dart.generic(T => {
+    class MoneyEncoder extends core.Object {}
+    (MoneyEncoder.new = function() {
+      ;
+    }).prototype = MoneyEncoder.prototype;
+    dart.addTypeTests(MoneyEncoder);
+    MoneyEncoder.prototype[_is_MoneyEncoder_default] = true;
+    dart.addTypeCaches(MoneyEncoder);
+    dart.setLibraryUri(MoneyEncoder, I[6]);
+    return MoneyEncoder;
+  });
+  encoders.MoneyEncoder = encoders.MoneyEncoder$();
+  dart.addTypeTests(encoders.MoneyEncoder, _is_MoneyEncoder_default);
+  const _is_MoneyDecoder_default = Symbol('_is_MoneyDecoder_default');
+  encoders.MoneyDecoder$ = dart.generic(T => {
+    class MoneyDecoder extends core.Object {}
+    (MoneyDecoder.new = function() {
+      ;
+    }).prototype = MoneyDecoder.prototype;
+    dart.addTypeTests(MoneyDecoder);
+    MoneyDecoder.prototype[_is_MoneyDecoder_default] = true;
+    dart.addTypeCaches(MoneyDecoder);
+    dart.setLibraryUri(MoneyDecoder, I[6]);
+    return MoneyDecoder;
+  });
+  encoders.MoneyDecoder = encoders.MoneyDecoder$();
+  dart.addTypeTests(encoders.MoneyDecoder, _is_MoneyDecoder_default);
+  var _minorUnits$ = dart.privateName(money, "Money._minorUnits");
+  var _currency$ = dart.privateName(money, "Money._currency");
+  var _minorUnits = dart.privateName(money, "_minorUnits");
+  var _currency = dart.privateName(money, "_currency");
+  var _preconditionThatCurrencyTheSameFor = dart.privateName(money, "_preconditionThatCurrencyTheSameFor");
+  var _withAmount = dart.privateName(money, "_withAmount");
+  money.Money = class Money extends core.Object {
+    get [_minorUnits]() {
+      return this[_minorUnits$];
+    }
+    set [_minorUnits](value) {
+      super[_minorUnits] = value;
+    }
+    get [_currency]() {
+      return this[_currency$];
+    }
+    set [_currency](value) {
+      super[_currency] = value;
+    }
+    get currency() {
+      return this[_currency];
+    }
+    get minorUnits() {
+      return this[_minorUnits].toBigInt();
+    }
+    static from(amount, currency) {
+      if (amount == null) dart.nullFailed(I[7], 101, 26, "amount");
+      if (currency == null) dart.nullFailed(I[7], 101, 43, "currency");
+      let minorUnits = core._BigIntImpl.from((dart.notNull(amount) * dart.notNull(currency.precisionFactor.toInt()) + (dart.notNull(amount) >= 0 ? 0.5 : -0.5))[$toInt]());
+      return new money.Money._from(new minor_units.MinorUnits.from(minorUnits), currency);
+    }
+    static fromBigInt(minorUnits, currency) {
+      if (minorUnits == null) dart.nullFailed(I[7], 121, 35, "minorUnits");
+      if (currency == null) dart.nullFailed(I[7], 121, 56, "currency");
+      return new money.Money._from(new minor_units.MinorUnits.from(minorUnits), currency);
+    }
+    static fromInt(minorUnits, currency) {
+      if (minorUnits == null) dart.nullFailed(I[7], 128, 29, "minorUnits");
+      if (currency == null) dart.nullFailed(I[7], 128, 50, "currency");
+      return new money.Money._from(new minor_units.MinorUnits.from(core._BigIntImpl.from(minorUnits)), currency);
+    }
+    static parse(monetaryAmount, currency, opts) {
+      if (monetaryAmount == null) dart.nullFailed(I[7], 142, 30, "monetaryAmount");
+      if (currency == null) dart.nullFailed(I[7], 142, 55, "currency");
+      let pattern = opts && 'pattern' in opts ? opts.pattern : null;
+      pattern == null ? pattern = currency.pattern : null;
+      let decoder = new pattern_decoder.PatternDecoder.new(currency, pattern);
+      let data = decoder.decode(monetaryAmount);
+      return new money.Money._from(new minor_units.MinorUnits.from(data.minorUnits), currency);
+    }
+    static fromString(monetaryAmount, currency, opts) {
+      if (monetaryAmount == null) dart.nullFailed(I[7], 156, 35, "monetaryAmount");
+      if (currency == null) dart.nullFailed(I[7], 156, 60, "currency");
+      let pattern = opts && 'pattern' in opts ? opts.pattern : null;
+      return money.Money.parse(monetaryAmount, currency, {pattern: pattern});
+    }
+    exchangeTo(exchangeRate) {
+      if (exchangeRate == null) dart.nullFailed(I[7], 184, 26, "exchangeRate");
+      let convertedUnits = this[_minorUnits].toBigInt()['*'](exchangeRate[_minorUnits].toBigInt());
+      let round = dart.test(convertedUnits.isNegative) ? -0.5 : 0.5;
+      convertedUnits = core._BigIntImpl.from(dart.notNull(convertedUnits['/'](this[_currency].precisionFactor)) + round);
+      return new money.Money._from(new minor_units.MinorUnits.from(convertedUnits), exchangeRate[_currency]);
+    }
+    format(pattern) {
+      if (pattern == null) dart.nullFailed(I[7], 238, 24, "pattern");
+      return this.encodedBy(core.String, new pattern_encoder.PatternEncoder.new(this, pattern));
+    }
+    toString() {
+      return this.encodedBy(core.String, new pattern_encoder.PatternEncoder.new(this, this[_currency].pattern));
+    }
+    static decoding(T, value, decoder) {
+      if (decoder == null) dart.nullFailed(I[7], 257, 53, "decoder");
+      let data = decoder.decode(value);
+      return new money.Money._from(new minor_units.MinorUnits.from(data.minorUnits), data.currency);
+    }
+    encodedBy(T, encoder) {
+      if (encoder == null) dart.nullFailed(I[7], 272, 34, "encoder");
+      return encoder.encode(new money_data.MoneyData.from(this[_minorUnits].toBigInt(), this[_currency]));
+    }
+    get isZero() {
+      return this[_minorUnits].isZero;
+    }
+    get isNegative() {
+      return this[_minorUnits].isNegative;
+    }
+    get isPositive() {
+      return this[_minorUnits].isPositive;
+    }
+    get hashCode() {
+      let result = 17;
+      result = 37 * result + dart.notNull(dart.hashCode(this[_minorUnits]));
+      result = 37 * result + dart.notNull(dart.hashCode(this[_currency]));
+      return result;
+    }
+    isInCurrency(currency) {
+      if (currency == null) dart.nullFailed(I[7], 304, 30, "currency");
+      return dart.equals(this[_currency], currency);
+    }
+    isInSameCurrencyAs(other) {
+      if (other == null) dart.nullFailed(I[7], 307, 33, "other");
+      return this.isInCurrency(other[_currency]);
+    }
+    compareTo(other) {
+      money.Money.as(other);
+      if (other == null) dart.nullFailed(I[7], 314, 23, "other");
+      this[_preconditionThatCurrencyTheSameFor](other);
+      return this[_minorUnits].compareTo(other[_minorUnits]);
+    }
+    _equals(other) {
+      if (other == null) return false;
+      return money.Money.is(other) && dart.test(this.isInSameCurrencyAs(other)) && dart.equals(other[_minorUnits], this[_minorUnits]);
+    }
+    ['<'](other) {
+      if (other == null) dart.nullFailed(I[7], 332, 25, "other");
+      this[_preconditionThatCurrencyTheSameFor](other, dart.fn(() => "Cannot compare money in different currencies.", T.VoidToString()));
+      return this[_minorUnits]['<'](other[_minorUnits]);
+    }
+    ['<='](other) {
+      if (other == null) dart.nullFailed(I[7], 343, 26, "other");
+      this[_preconditionThatCurrencyTheSameFor](other, dart.fn(() => "Cannot compare money in different currencies.", T.VoidToString()));
+      return this[_minorUnits]['<='](other[_minorUnits]);
+    }
+    ['>'](other) {
+      if (other == null) dart.nullFailed(I[7], 354, 25, "other");
+      this[_preconditionThatCurrencyTheSameFor](other, dart.fn(() => "Cannot compare money in different currencies.", T.VoidToString()));
+      return this[_minorUnits]['>'](other[_minorUnits]);
+    }
+    ['>='](other) {
+      if (other == null) dart.nullFailed(I[7], 365, 26, "other");
+      this[_preconditionThatCurrencyTheSameFor](other, dart.fn(() => "Cannot compare money in different currencies.", T.VoidToString()));
+      return this[_minorUnits]['>='](other[_minorUnits]);
+    }
+    allocationAccordingTo(ratios) {
+      if (ratios == null) dart.nullFailed(I[7], 378, 47, "ratios");
+      return this[_minorUnits].allocationAccordingTo(ratios)[$map](money.Money, dart.bind(this, _withAmount))[$toList]();
+    }
+    allocationTo(targets) {
+      if (targets == null) dart.nullFailed(I[7], 384, 32, "targets");
+      if (dart.notNull(targets) < 1) {
+        dart.throw(new core.ArgumentError.value(targets, "targets", "Number of targets must not be less than one, " + "cannot allocate to nothing."));
+      }
+      return this.allocationAccordingTo(T.ListOfint().filled(targets, 1));
+    }
+    ['+'](summand) {
+      if (summand == null) dart.nullFailed(I[7], 402, 26, "summand");
+      this[_preconditionThatCurrencyTheSameFor](summand);
+      return this[_withAmount](this[_minorUnits]['+'](summand[_minorUnits]));
+    }
+    _negate() {
+      return this[_withAmount](this[_minorUnits]._negate());
+    }
+    ['-'](subtrahend) {
+      if (subtrahend == null) dart.nullFailed(I[7], 415, 26, "subtrahend");
+      this[_preconditionThatCurrencyTheSameFor](subtrahend);
+      return this[_withAmount](this[_minorUnits]['-'](subtrahend[_minorUnits]));
+    }
+    ['*'](multiplier) {
+      if (multiplier == null) dart.nullFailed(I[7], 422, 24, "multiplier");
+      return this[_withAmount](this[_minorUnits]['*'](multiplier));
+    }
+    ['/'](divisor) {
+      if (divisor == null) dart.nullFailed(I[7], 427, 24, "divisor");
+      return this[_withAmount](this[_minorUnits]['/'](divisor));
+    }
+    dividedBy(divisor) {
+      if (divisor == null) dart.nullFailed(I[7], 432, 26, "divisor");
+      this[_preconditionThatCurrencyTheSameFor](divisor);
+      return dart.notNull(this.minorUnits.toDouble()) / dart.notNull(divisor.minorUnits.toDouble());
+    }
+    [_withAmount](amount) {
+      if (amount == null) dart.nullFailed(I[7], 440, 32, "amount");
+      return new money.Money._from(amount, this[_currency]);
+    }
+    [_preconditionThatCurrencyTheSameFor](other, message = null) {
+      let t0;
+      if (other == null) dart.nullFailed(I[7], 442, 50, "other");
+      function defaultMessage() {
+        return "Cannot operate with money values in different currencies.";
+      }
+      dart.fn(defaultMessage, T.VoidToString());
+      if (!dart.test(this.isInSameCurrencyAs(other))) {
+        dart.throw(new core.ArgumentError.new((t0 = message, t0 == null ? defaultMessage : t0)()));
+      }
+    }
+  };
+  (money.Money._from = function(_minorUnits, _currency) {
+    if (_minorUnits == null) dart.nullFailed(I[7], 200, 26, "_minorUnits");
+    if (_currency == null) dart.nullFailed(I[7], 200, 44, "_currency");
+    this[_minorUnits$] = _minorUnits;
+    this[_currency$] = _currency;
+    ;
+  }).prototype = money.Money.prototype;
+  dart.addTypeTests(money.Money);
+  dart.addTypeCaches(money.Money);
+  money.Money[dart.implements] = () => [core.Comparable$(money.Money)];
+  dart.setMethodSignature(money.Money, () => ({
+    __proto__: dart.getMethods(money.Money.__proto__),
+    exchangeTo: dart.fnType(money.Money, [money.Money]),
+    format: dart.fnType(core.String, [core.String]),
+    encodedBy: dart.gFnType(T => [T, [encoders.MoneyEncoder$(T)]], T => [dart.nullable(core.Object)]),
+    isInCurrency: dart.fnType(core.bool, [currency$.Currency]),
+    isInSameCurrencyAs: dart.fnType(core.bool, [money.Money]),
+    compareTo: dart.fnType(core.int, [dart.nullable(core.Object)]),
+    [$compareTo]: dart.fnType(core.int, [dart.nullable(core.Object)]),
+    _equals: dart.fnType(core.bool, [dart.dynamic]),
+    [$_equals]: dart.fnType(core.bool, [dart.dynamic]),
+    '<': dart.fnType(core.bool, [money.Money]),
+    '<=': dart.fnType(core.bool, [money.Money]),
+    '>': dart.fnType(core.bool, [money.Money]),
+    '>=': dart.fnType(core.bool, [money.Money]),
+    allocationAccordingTo: dart.fnType(core.List$(money.Money), [core.List$(core.int)]),
+    allocationTo: dart.fnType(core.List$(money.Money), [core.int]),
+    '+': dart.fnType(money.Money, [money.Money]),
+    _negate: dart.fnType(money.Money, []),
+    '-': dart.fnType(money.Money, [money.Money]),
+    '*': dart.fnType(money.Money, [core.num]),
+    '/': dart.fnType(money.Money, [core.num]),
+    dividedBy: dart.fnType(core.double, [money.Money]),
+    [_withAmount]: dart.fnType(money.Money, [minor_units.MinorUnits]),
+    [_preconditionThatCurrencyTheSameFor]: dart.fnType(dart.void, [money.Money], [dart.nullable(dart.fnType(core.String, []))])
+  }));
+  dart.setGetterSignature(money.Money, () => ({
+    __proto__: dart.getGetters(money.Money.__proto__),
+    currency: currency$.Currency,
+    minorUnits: core.BigInt,
+    isZero: core.bool,
+    isNegative: core.bool,
+    isPositive: core.bool
+  }));
+  dart.setLibraryUri(money.Money, I[8]);
+  dart.setFieldSignature(money.Money, () => ({
+    __proto__: dart.getFields(money.Money.__proto__),
+    [_minorUnits]: dart.finalFieldType(minor_units.MinorUnits),
+    [_currency]: dart.finalFieldType(currency$.Currency)
+  }));
+  dart.defineExtensionMethods(money.Money, ['toString', 'compareTo', '_equals']);
+  dart.defineExtensionAccessors(money.Money, ['hashCode']);
+  var message$0 = dart.privateName(money, "MoneyParseException.message");
+  money.MoneyParseException = class MoneyParseException extends core.Object {
+    get message() {
+      return this[message$0];
+    }
+    set message(value) {
+      this[message$0] = value;
+    }
+    static fromValue(pattern, i, monetaryValue, monetaryIndex) {
+      if (pattern == null) dart.nullFailed(I[7], 463, 14, "pattern");
+      if (i == null) dart.nullFailed(I[7], 463, 27, "i");
+      if (monetaryValue == null) dart.nullFailed(I[7], 463, 37, "monetaryValue");
+      if (monetaryIndex == null) dart.nullFailed(I[7], 463, 56, "monetaryIndex");
+      let message = "monetaryValue contained an unexpected character '" + monetaryValue[$_get](monetaryIndex) + "' at pos " + dart.str(monetaryIndex) + " \n        when a match for pattern character " + pattern[$_get](i) + " at pos " + dart.str(i) + " was expected.";
+      return new money.MoneyParseException.new(message);
+    }
+    toString() {
+      return this.message;
+    }
+  };
+  (money.MoneyParseException.new = function(message) {
+    if (message == null) dart.nullFailed(I[7], 459, 28, "message");
+    this[message$0] = message;
+    ;
+  }).prototype = money.MoneyParseException.prototype;
+  dart.addTypeTests(money.MoneyParseException);
+  dart.addTypeCaches(money.MoneyParseException);
+  money.MoneyParseException[dart.implements] = () => [core.Exception];
+  dart.setLibraryUri(money.MoneyParseException, I[8]);
+  dart.setFieldSignature(money.MoneyParseException, () => ({
+    __proto__: dart.getFields(money.MoneyParseException.__proto__),
+    message: dart.fieldType(core.String)
+  }));
+  dart.defineExtensionMethods(money.MoneyParseException, ['toString']);
+  var code$ = dart.privateName(currency$, "Currency.code");
+  var symbol$ = dart.privateName(currency$, "Currency.symbol");
+  var precision$ = dart.privateName(currency$, "Currency.precision");
+  var precisionFactor = dart.privateName(currency$, "Currency.precisionFactor");
+  var pattern$1 = dart.privateName(currency$, "Currency.pattern");
+  var invertSeparators$ = dart.privateName(currency$, "Currency.invertSeparators");
+  var decimalSeparator = dart.privateName(currency$, "Currency.decimalSeparator");
+  var thousandSeparator = dart.privateName(currency$, "Currency.thousandSeparator");
+  currency$.Currency = class Currency extends core.Object {
+    get code() {
+      return this[code$];
+    }
+    set code(value) {
+      super.code = value;
+    }
+    get symbol() {
+      return this[symbol$];
+    }
+    set symbol(value) {
+      super.symbol = value;
+    }
+    get precision() {
+      return this[precision$];
+    }
+    set precision(value) {
+      super.precision = value;
+    }
+    get precisionFactor() {
+      return this[precisionFactor];
+    }
+    set precisionFactor(value) {
+      super.precisionFactor = value;
+    }
+    get pattern() {
+      return this[pattern$1];
+    }
+    set pattern(value) {
+      super.pattern = value;
+    }
+    get invertSeparators() {
+      return this[invertSeparators$];
+    }
+    set invertSeparators(value) {
+      super.invertSeparators = value;
+    }
+    get decimalSeparator() {
+      return this[decimalSeparator];
+    }
+    set decimalSeparator(value) {
+      super.decimalSeparator = value;
+    }
+    get thousandSeparator() {
+      return this[thousandSeparator];
+    }
+    set thousandSeparator(value) {
+      super.thousandSeparator = value;
+    }
+    copyWith(opts) {
+      let t0, t0$, t0$0, t0$1, t0$2;
+      let code = opts && 'code' in opts ? opts.code : null;
+      let precision = opts && 'precision' in opts ? opts.precision : null;
+      let symbol = opts && 'symbol' in opts ? opts.symbol : null;
+      let pattern = opts && 'pattern' in opts ? opts.pattern : null;
+      let invertSeparators = opts && 'invertSeparators' in opts ? opts.invertSeparators : null;
+      return new currency$.Currency.create((t0 = code, t0 == null ? this.code : t0), (t0$ = precision, t0$ == null ? this.precision : t0$), {symbol: (t0$0 = symbol, t0$0 == null ? this.symbol : t0$0), pattern: (t0$1 = pattern, t0$1 == null ? this.pattern : t0$1), invertSeparators: (t0$2 = invertSeparators, t0$2 == null ? this.invertSeparators : t0$2)});
+    }
+    parse(monetaryAmount, opts) {
+      if (monetaryAmount == null) dart.nullFailed(I[9], 132, 22, "monetaryAmount");
+      let pattern = opts && 'pattern' in opts ? opts.pattern : null;
+      pattern == null ? pattern = this.pattern : null;
+      let decoder = new pattern_decoder.PatternDecoder.new(this, pattern);
+      let moneyData = decoder.decode(monetaryAmount);
+      return money.Money.fromInt(moneyData.minorUnits.toInt(), this);
+    }
+    fromString(monetaryAmount, opts) {
+      if (monetaryAmount == null) dart.nullFailed(I[9], 143, 27, "monetaryAmount");
+      let pattern = opts && 'pattern' in opts ? opts.pattern : null;
+      pattern == null ? pattern = this.pattern : null;
+      let decoder = new pattern_decoder.PatternDecoder.new(this, pattern);
+      let moneyData = decoder.decode(monetaryAmount);
+      return money.Money.fromInt(moneyData.minorUnits.toInt(), this);
+    }
+    get hashCode() {
+      return dart.hashCode(this.code);
+    }
+    _equals(other) {
+      if (other == null) return false;
+      return currency$.Currency.is(other) && this.code == other.code && this.precision == other.precision;
+    }
+    static _calcPrecisionFactor(precision) {
+      if (precision == null) dart.nullFailed(I[9], 158, 42, "precision");
+      if (precision[$isNegative]) {
+        dart.throw(new core.ArgumentError.value(precision, "precision", "Must be a non-negative value."));
+      }
+      return core._BigIntImpl.from(math.pow(10, precision));
+    }
+    toMinorUnits(majorUnits, minorUnits) {
+      if (majorUnits == null) dart.nullFailed(I[9], 169, 30, "majorUnits");
+      if (minorUnits == null) dart.nullFailed(I[9], 169, 49, "minorUnits");
+      return majorUnits['*'](this.precisionFactor)['+'](minorUnits);
+    }
+  };
+  (currency$.Currency.create = function(code, precision, opts) {
+    if (code == null) dart.nullFailed(I[9], 93, 24, "code");
+    if (precision == null) dart.nullFailed(I[9], 93, 35, "precision");
+    let symbol = opts && 'symbol' in opts ? opts.symbol : "$";
+    if (symbol == null) dart.nullFailed(I[9], 94, 13, "symbol");
+    let pattern = opts && 'pattern' in opts ? opts.pattern : "S0.00";
+    if (pattern == null) dart.nullFailed(I[9], 95, 12, "pattern");
+    let invertSeparators = opts && 'invertSeparators' in opts ? opts.invertSeparators : false;
+    if (invertSeparators == null) dart.nullFailed(I[9], 96, 12, "invertSeparators");
+    this[code$] = code;
+    this[precision$] = precision;
+    this[symbol$] = symbol;
+    this[pattern$1] = pattern;
+    this[invertSeparators$] = invertSeparators;
+    this[precisionFactor] = currency$.Currency._calcPrecisionFactor(precision);
+    this[decimalSeparator] = dart.test(invertSeparators) ? "," : ".";
+    this[thousandSeparator] = dart.test(invertSeparators) ? "." : ",";
+    if (this.code[$isEmpty]) {
+      dart.throw(new core.ArgumentError.value(this.code, "code", "Must be a non-empty string."));
+    }
+  }).prototype = currency$.Currency.prototype;
+  dart.addTypeTests(currency$.Currency);
+  dart.addTypeCaches(currency$.Currency);
+  dart.setMethodSignature(currency$.Currency, () => ({
+    __proto__: dart.getMethods(currency$.Currency.__proto__),
+    copyWith: dart.fnType(currency$.Currency, [], {code: dart.nullable(core.String), invertSeparators: dart.nullable(core.bool), pattern: dart.nullable(core.String), precision: dart.nullable(core.int), symbol: dart.nullable(core.String)}, {}),
+    parse: dart.fnType(money.Money, [core.String], {pattern: dart.nullable(core.String)}, {}),
+    fromString: dart.fnType(money.Money, [core.String], {pattern: dart.nullable(core.String)}, {}),
+    _equals: dart.fnType(core.bool, [dart.dynamic]),
+    [$_equals]: dart.fnType(core.bool, [dart.dynamic]),
+    toMinorUnits: dart.fnType(core.BigInt, [core.BigInt, core.BigInt])
+  }));
+  dart.setLibraryUri(currency$.Currency, I[10]);
+  dart.setFieldSignature(currency$.Currency, () => ({
+    __proto__: dart.getFields(currency$.Currency.__proto__),
+    code: dart.finalFieldType(core.String),
+    symbol: dart.finalFieldType(core.String),
+    precision: dart.finalFieldType(core.int),
+    precisionFactor: dart.finalFieldType(core.BigInt),
+    pattern: dart.finalFieldType(core.String),
+    invertSeparators: dart.finalFieldType(core.bool),
+    decimalSeparator: dart.finalFieldType(core.String),
+    thousandSeparator: dart.finalFieldType(core.String)
+  }));
+  dart.defineExtensionMethods(currency$.Currency, ['_equals']);
+  dart.defineExtensionAccessors(currency$.Currency, ['hashCode']);
+  dart.defineLazy(currency$.Currency, {
+    /*currency$.Currency.defaultPattern*/get defaultPattern() {
+      return "S0.00";
+    }
+  }, false);
+  dart.trackLibraries("packages/money2/src/pattern_encoder.dart", {
+    "package:money2/src/pattern_encoder.dart": pattern_encoder,
+    "package:money2/src/pattern_decoder.dart": pattern_decoder,
+    "package:money2/src/money_data.dart": money_data,
+    "package:money2/src/encoders.dart": encoders,
+    "package:money2/src/money.dart": money,
+    "package:money2/src/currency.dart": currency$
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["pattern_encoder.dart","pattern_decoder.dart","money_data.dart","encoders.dart","money.dart","currency.dart"],"names":[],"mappings":"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","file":"../../../../../../../../packages/money2/src/pattern_encoder.dart.lib.js"}');
+  // Exports:
+  return {
+    src__pattern_encoder: pattern_encoder,
+    src__pattern_decoder: pattern_decoder,
+    src__money_data: money_data,
+    src__encoders: encoders,
+    src__money: money,
+    src__currency: currency$
+  };
+}));
+
+//# sourceMappingURL=pattern_encoder.dart.lib.js.map

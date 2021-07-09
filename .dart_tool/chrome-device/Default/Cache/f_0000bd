@@ -1,0 +1,341 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/comanda_virtual_app/models/comanda.dart', 'packages/flutter/src/material/card.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/flutter/src/painting/strut_style.dart', 'packages/flutter/src/widgets/icon.dart', 'packages/flutter/src/material/icons.dart', 'packages/flutter/src/material/page.dart', 'packages/comanda_virtual_app/screens/pedido/list.dart'], (function load__packages__comanda_virtual_app__components__comanda_tile_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__comanda_virtual_app__models__comanda$46dart, packages__flutter__src__material__card$46dart, packages__flutter__src__material__icon_button$46dart, packages__flutter__src__painting__strut_style$46dart, packages__flutter__src__widgets__icon$46dart, packages__flutter__src__material__icons$46dart, packages__flutter__src__material__page$46dart, packages__comanda_virtual_app__screens__pedido__list$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const collection = dart_sdk.collection;
+  const async = dart_sdk.async;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const text = packages__flutter__src__widgets__widget_span$46dart.src__widgets__text;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const navigator = packages__flutter__src__widgets__widget_span$46dart.src__widgets__navigator;
+  const comanda = packages__comanda_virtual_app__models__comanda$46dart.models__comanda;
+  const card = packages__flutter__src__material__card$46dart.src__material__card;
+  const list_tile = packages__flutter__src__material__icon_button$46dart.src__material__list_tile;
+  const text_style = packages__flutter__src__painting__strut_style$46dart.src__painting__text_style;
+  const icon = packages__flutter__src__widgets__icon$46dart.src__widgets__icon;
+  const icons = packages__flutter__src__material__icons$46dart.src__material__icons;
+  const page = packages__flutter__src__material__page$46dart.src__material__page;
+  const list = packages__comanda_virtual_app__screens__pedido__list$46dart.screens__pedido__list;
+  var comanda_tile = Object.create(dart.library);
+  var $toString = dartx.toString;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    SetOfvoid: () => (T.SetOfvoid = dart.constFn(core.Set$(dart.void)))(),
+    SetLOfvoid: () => (T.SetLOfvoid = dart.constFn(dart.legacy(T.SetOfvoid())))(),
+    FutureOfSetLOfvoid: () => (T.FutureOfSetLOfvoid = dart.constFn(async.Future$(T.SetLOfvoid())))(),
+    FutureLOfSetLOfvoid: () => (T.FutureLOfSetLOfvoid = dart.constFn(dart.legacy(T.FutureOfSetLOfvoid())))(),
+    LinkedHashSetOfFutureLOfSetLOfvoid: () => (T.LinkedHashSetOfFutureLOfSetLOfvoid = dart.constFn(collection.LinkedHashSet$(T.FutureLOfSetLOfvoid())))(),
+    PedidoListL: () => (T.PedidoListL = dart.constFn(dart.legacy(list.PedidoList)))(),
+    BuildContextL: () => (T.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    BuildContextLToPedidoListL: () => (T.BuildContextLToPedidoListL = dart.constFn(dart.fnType(T.PedidoListL(), [T.BuildContextL()])))(),
+    LinkedHashSetOfvoid: () => (T.LinkedHashSetOfvoid = dart.constFn(collection.LinkedHashSet$(dart.void)))(),
+    VoidToNull: () => (T.VoidToNull = dart.constFn(dart.fnType(core.Null, [])))(),
+    dynamicToSetLOfvoid: () => (T.dynamicToSetLOfvoid = dart.constFn(dart.fnType(T.SetLOfvoid(), [dart.dynamic])))(),
+    SetOfFutureLOfSetLOfvoid: () => (T.SetOfFutureLOfSetLOfvoid = dart.constFn(core.Set$(T.FutureLOfSetLOfvoid())))(),
+    SetLOfFutureLOfSetLOfvoid: () => (T.SetLOfFutureLOfSetLOfvoid = dart.constFn(dart.legacy(T.SetOfFutureLOfSetLOfvoid())))(),
+    VoidToSetLOfFutureLOfSetLOfvoid: () => (T.VoidToSetLOfFutureLOfSetLOfvoid = dart.constFn(dart.fnType(T.SetLOfFutureLOfSetLOfvoid(), [])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 11,
+        [_Location_line]: 21,
+        [_Location_file]: null
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 11,
+        [_Location_line]: 22,
+        [_Location_file]: null
+      });
+    },
+    get C1() {
+      return C[1] = dart.constList([C[2] || CT.C2, C[3] || CT.C3], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 20,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/components/comanda_tile.dart"
+      });
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 36,
+        [_Location_line]: 24,
+        [_Location_file]: null
+      });
+    },
+    get C5() {
+      return C[5] = dart.constList([C[6] || CT.C6], T._LocationL());
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[5] || CT.C5,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 24,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/components/comanda_tile.dart"
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 32,
+        [_Location_line]: 27,
+        [_Location_file]: null
+      });
+    },
+    get C8() {
+      return C[8] = dart.constList([C[9] || CT.C9], T._LocationL());
+    },
+    get C7() {
+      return C[7] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[8] || CT.C8,
+        [_Location_name]: null,
+        [_Location_column]: 19,
+        [_Location_line]: 25,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/components/comanda_tile.dart"
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "icon",
+        [_Location_column]: 30,
+        [_Location_line]: 29,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.constList([C[12] || CT.C12], T._LocationL());
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[11] || CT.C11,
+        [_Location_name]: null,
+        [_Location_column]: 19,
+        [_Location_line]: 29,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/components/comanda_tile.dart"
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "comandaID",
+        [_Location_column]: 56,
+        [_Location_line]: 35,
+        [_Location_file]: null
+      });
+    },
+    get C14() {
+      return C[14] = dart.constList([C[15] || CT.C15], T._LocationL());
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[14] || CT.C14,
+        [_Location_name]: null,
+        [_Location_column]: 27,
+        [_Location_line]: 35,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/components/comanda_tile.dart"
+      });
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "leading",
+        [_Location_column]: 9,
+        [_Location_line]: 20,
+        [_Location_file]: null
+      });
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 9,
+        [_Location_line]: 24,
+        [_Location_file]: null
+      });
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "subtitle",
+        [_Location_column]: 9,
+        [_Location_line]: 25,
+        [_Location_file]: null
+      });
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "trailing",
+        [_Location_column]: 9,
+        [_Location_line]: 29,
+        [_Location_file]: null
+      });
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onTap",
+        [_Location_column]: 9,
+        [_Location_line]: 30,
+        [_Location_file]: null
+      });
+    },
+    get C17() {
+      return C[17] = dart.constList([C[18] || CT.C18, C[19] || CT.C19, C[20] || CT.C20, C[21] || CT.C21, C[22] || CT.C22], T._LocationL());
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[17] || CT.C17,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 19,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/components/comanda_tile.dart"
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 19,
+        [_Location_file]: null
+      });
+    },
+    get C24() {
+      return C[24] = dart.constList([C[25] || CT.C25], T._LocationL());
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[24] || CT.C24,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 18,
+        [_Location_file]: "file:///C:/Users/wilso/Documents/GitHub/comanda_virtual_app/lib/components/comanda_tile.dart"
+      });
+    }
+  }, false);
+  var C = Array(26).fill(void 0);
+  var I = ["package:comanda_virtual_app/components/comanda_tile.dart"];
+  var comanda$ = dart.privateName(comanda_tile, "ComandaTile.comanda");
+  var widget$ = dart.privateName(comanda_tile, "ComandaTile.widget");
+  comanda_tile.ComandaTile = class ComandaTile extends framework.StatefulWidget {
+    get comanda() {
+      return this[comanda$];
+    }
+    set comanda(value) {
+      super.comanda = value;
+    }
+    get widget() {
+      return this[widget$];
+    }
+    set widget(value) {
+      super.widget = value;
+    }
+    createState() {
+      return new comanda_tile._ComandaTileState.new();
+    }
+  };
+  (comanda_tile.ComandaTile.new = function(comanda, widget, opts) {
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[comanda$] = comanda;
+    this[widget$] = widget;
+    comanda_tile.ComandaTile.__proto__.new.call(this, {$creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = comanda_tile.ComandaTile.prototype;
+  dart.addTypeTests(comanda_tile.ComandaTile);
+  dart.addTypeCaches(comanda_tile.ComandaTile);
+  dart.setMethodSignature(comanda_tile.ComandaTile, () => ({
+    __proto__: dart.getMethods(comanda_tile.ComandaTile.__proto__),
+    createState: dart.fnType(dart.legacy(comanda_tile._ComandaTileState), [])
+  }));
+  dart.setLibraryUri(comanda_tile.ComandaTile, I[0]);
+  dart.setFieldSignature(comanda_tile.ComandaTile, () => ({
+    __proto__: dart.getFields(comanda_tile.ComandaTile.__proto__),
+    comanda: dart.finalFieldType(dart.legacy(comanda.Comanda)),
+    widget: dart.finalFieldType(dart.legacy(core.Function))
+  }));
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  comanda_tile._ComandaTileState = class _ComandaTileState extends framework.State$(dart.legacy(comanda_tile.ComandaTile)) {
+    build(context) {
+      return new card.Card.new({child: new list_tile.ListTile.new({leading: new text.Text.new(this.getIDString(), {style: new text_style.TextStyle.new({fontSize: 32.0}), $creationLocationd_0dea112b090073317d4: C[0] || CT.C0}), title: new text.Text.new(this.widget.comanda.name, {$creationLocationd_0dea112b090073317d4: C[4] || CT.C4}), subtitle: new text.Text.new("RG: " + dart.notNull(this.widget.comanda.userId) + " | Valor Total: " + dart.notNull(this.widget.comanda.getTotal()), {$creationLocationd_0dea112b090073317d4: C[7] || CT.C7}), trailing: new icon.Icon.new(icons.Icons.search, {$creationLocationd_0dea112b090073317d4: C[10] || CT.C10}), onTap: dart.fn(() => T.LinkedHashSetOfFutureLOfSetLOfvoid().from([navigator.Navigator.push(dart.dynamic, context, new page.MaterialPageRoute.new({builder: dart.fn(context => new list.PedidoList.new(dart.toString(this.widget.comanda.id), {$creationLocationd_0dea112b090073317d4: C[13] || CT.C13}), T.BuildContextLToPedidoListL())})).then(T.SetLOfvoid(), dart.fn(data => T.LinkedHashSetOfvoid().from([dart.dsend(this.widget, 'widget', []), this.setState(dart.fn(() => {
+              }, T.VoidToNull()))]), T.dynamicToSetLOfvoid()))]), T.VoidToSetLOfFutureLOfSetLOfvoid()), $creationLocationd_0dea112b090073317d4: C[16] || CT.C16}), $creationLocationd_0dea112b090073317d4: C[23] || CT.C23});
+    }
+    getIDString() {
+      return dart.toString(this.widget.comanda.id).length > 1 ? dart.toString(this.widget.comanda.id) : "0" + dart.toString(this.widget.comanda.id);
+    }
+  };
+  (comanda_tile._ComandaTileState.new = function() {
+    comanda_tile._ComandaTileState.__proto__.new.call(this);
+    ;
+  }).prototype = comanda_tile._ComandaTileState.prototype;
+  dart.addTypeTests(comanda_tile._ComandaTileState);
+  dart.addTypeCaches(comanda_tile._ComandaTileState);
+  dart.setMethodSignature(comanda_tile._ComandaTileState, () => ({
+    __proto__: dart.getMethods(comanda_tile._ComandaTileState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    getIDString: dart.fnType(dart.legacy(core.String), [])
+  }));
+  dart.setLibraryUri(comanda_tile._ComandaTileState, I[0]);
+  dart.trackLibraries("packages/comanda_virtual_app/components/comanda_tile.dart", {
+    "package:comanda_virtual_app/components/comanda_tile.dart": comanda_tile
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["comanda_tile.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAKgB;;;;;;IACC;;;;;;;AAKoB;IAAmB;;2CAH/B,SAAc;;IAAd;IAAc;AAA/B;;EAAsC;;;;;;;;;;;;;;;;;;;UAQlB;AACxB,YAAO,2BACE,qCACI,kBACP,4BACO,wCAAoB,wEAEtB,kBAAK,AAAO,AAAQ,8FACjB,kBAAK,AAAO,AACI,AACH,sBADnB,AAAO,AAAQ,8BACf,kCACA,AAAO,AAAQ,qGACT,kBAAW,uFACd,cAAM,6CACD,AAKL,uCAJG,OAAO,EACP,yCACa,QAAC,WACN,wBAA6B,cAAlB,AAAO,AAAQ,6IAChC,QAAC,QAAS,8BAAc,WAAb,4BAAiB,cAAS;;IAIvD;;AAGE,YAA0B,AAAW,AAAO,eAApC,AAAO,AAAQ,iCAAuB,IACtB,cAAlB,AAAO,AAAQ,0BACf,AAAI,MAAoB,cAAlB,AAAO,AAAQ;IAC7B;;;;;EACF","file":"../../../../../../../packages/comanda_virtual_app/components/comanda_tile.dart.lib.js"}');
+  // Exports:
+  return {
+    components__comanda_tile: comanda_tile
+  };
+}));
+
+//# sourceMappingURL=comanda_tile.dart.lib.js.map
